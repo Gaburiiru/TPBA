@@ -1,4 +1,5 @@
 public class Alumno {
+	private Integer id;
 	private String nombre;
 	private String apellido;
 	private Integer DNI;

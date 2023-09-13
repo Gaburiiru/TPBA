@@ -1,12 +1,16 @@
+import java.util.LinkedList;
+import java.util.List;
+
 public class CursoAlumno {
+	private Integer id;
 	private Alumno alumno;
-	private Nota nota;
+	private List<Nota> listaDeNotas;///lista de notas que acepte 3 notas.
 	private Materia materia;
 	
-	public CursoAlumno(Alumno alumno, Nota nota, Materia materia) {
+	public CursoAlumno(Alumno alumno, Materia materia) {
 		super();
 		this.alumno = alumno;
-		this.nota = nota;
+		this.listaDeNotas = new LinkedList<>();
 		this.materia = materia;
 	}
 
@@ -16,14 +20,6 @@ public class CursoAlumno {
 
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
-	}
-
-	public Nota getNota() {
-		return nota;
-	}
-
-	public void setNota(Nota nota) {
-		this.nota = nota;
 	}
 
 	public Materia getMateria() {

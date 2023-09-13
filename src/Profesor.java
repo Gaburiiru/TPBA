@@ -1,14 +1,16 @@
 public class Profesor {
+	private Integer id;
 	private String nombre;
 	private String apellido;
-	private Integer DNI;
+	private Integer dni;
 	private Integer edad;
 	
-	public Profesor(String nombre, String apellido, Integer dNI, Integer edad) {
+	public Profesor(Integer id,String nombre, String apellido, Integer dni, Integer edad) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		DNI = dNI;
+		this.dni = dni;
 		this.edad = edad;
 	}
 
@@ -29,11 +31,11 @@ public class Profesor {
 	}
 
 	public Integer getDNI() {
-		return DNI;
+		return this.dni;
 	}
 
-	public void setDNI(Integer dNI) {
-		DNI = dNI;
+	public void setDNI(Integer dni) {
+		this.dni = dni;
 	}
 
 	public Integer getEdad() {
