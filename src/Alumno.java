@@ -47,11 +47,4 @@ public class Alumno {
 		this.edad = edad;
 	}
 	
-    public void registrarEnUniversidad(Universidad universidad) {
-        if (universidad != null) {
-            List<Alumno> listaDeAlumnos = universidad.getListaDeAlumno();
-            listaDeAlumnos.add(this);
-            universidad.setListaDeAlumno(listaDeAlumnos);
-        }
-    }
 }
