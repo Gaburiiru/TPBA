@@ -1,22 +1,24 @@
 public class Materia {
+	private Integer id;
 	private String nombreMateria;
-	private Integer codMateria;
 	
-	public Materia(String nombreMateria, Integer codMateria) {
+	public Materia(Integer id,String nombreMateria) {
 		super();
 		this.nombreMateria = nombreMateria;
-		this.codMateria = codMateria;
+		this.id = id;
 	}
+	
 	public String getNombreMateria() {
 		return nombreMateria;
 	}
 	public void setNombreMateria(String nombreMateria) {
 		this.nombreMateria = nombreMateria;
 	}
-	public Integer getCodMateria() {
-		return codMateria;
+	public Integer getId() {
+		return id;
 	}
-	public void setCodMateria(Integer codMateria) {
-		this.codMateria = codMateria;
+	public void setId(Integer id) {
+		this.id = id;
 	}
+	
 }

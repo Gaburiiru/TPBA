@@ -1,30 +1,51 @@
+import java.time.LocalDate;
+
 public class CicloLectivo {
-	private String primerCuatrimestre;
-	private String segundoCuatrimestre;
-	private String fechaInicio;
-	
-	public CicloLectivo(String primerCuatrimestre, String segundoCuatrimestre, String fechaInicio) {
+	private Integer id;
+	private LocalDate fechaInicioCicloLectivo;
+	private LocalDate fechaFinCicloLectivo;
+	private LocalDate fechaInicioInscripcion;
+	private LocalDate fechaFinInscripcion;
+	public CicloLectivo(Integer id, LocalDate fechaInicioCicloLectivo, LocalDate fechaFinCicloLectivo,
+			LocalDate fechaInicioInscripcion, LocalDate fechaFinInscripcion) {
 		super();
-		this.primerCuatrimestre = primerCuatrimestre;
-		this.segundoCuatrimestre = segundoCuatrimestre;
-		this.fechaInicio = fechaInicio;
+		this.id = id;
+		this.fechaInicioCicloLectivo = fechaInicioCicloLectivo;
+		this.fechaFinCicloLectivo = fechaFinCicloLectivo;
+		this.fechaInicioInscripcion = fechaInicioInscripcion;
+		this.fechaFinInscripcion = fechaFinInscripcion;
 	}
-	public String getPrimerCuatrimestre() {
-		return primerCuatrimestre;
+	public Integer getId() {
+		return id;
 	}
-	public void setPrimerCuatrimestre(String primerCuatrimestre) {
-		this.primerCuatrimestre = primerCuatrimestre;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getSegundoCuatrimestre() {
-		return segundoCuatrimestre;
+	public LocalDate getFechaInicioCicloLectivo() {
+		return fechaInicioCicloLectivo;
 	}
-	public void setSegundoCuatrimestre(String segundoCuatrimestre) {
-		this.segundoCuatrimestre = segundoCuatrimestre;
+	public void setFechaInicioCicloLectivo(LocalDate fechaInicioCicloLectivo) {
+		this.fechaInicioCicloLectivo = fechaInicioCicloLectivo;
 	}
-	public String getFechaInicio() {
-		return fechaInicio;
+	public LocalDate getFechaFinCicloLectivo() {
+		return fechaFinCicloLectivo;
 	}
-	public void setFechaInicio(String fechaInicio) {
-		this.fechaInicio = fechaInicio;
+	public void setFechaFinCicloLectivo(LocalDate fechaFinCicloLectivo) {
+		this.fechaFinCicloLectivo = fechaFinCicloLectivo;
 	}
+	public LocalDate getFechaInicioInscripcion() {
+		return fechaInicioInscripcion;
+	}
+	public void setFechaInicioInscripcion(LocalDate fechaInicioInscripcion) {
+		this.fechaInicioInscripcion = fechaInicioInscripcion;
+	}
+	public LocalDate getFechaFinInscripcion() {
+		return fechaFinInscripcion;
+	}
+	public void setFechaFinInscripcion(LocalDate fechaFinInscripcion) {
+		this.fechaFinInscripcion = fechaFinInscripcion;
+	}
+
+	
+	
 }

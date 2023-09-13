@@ -1,17 +1,16 @@
 public class Aula {
-	private Integer nroAula;
+	private Integer id;
 	private Integer cantDeAlumnosPermitidos;
-	
-	public Aula(Integer nroAula, Integer cantDeAlumnosPermitidos) {
+	public Aula(Integer id, Integer cantDeAlumnosPermitidos) {
 		super();
-		this.nroAula = nroAula;
+		this.id = id;
 		this.cantDeAlumnosPermitidos = cantDeAlumnosPermitidos;
 	}
-	public Integer getNroAula() {
-		return nroAula;
+	public Integer getId() {
+		return id;
 	}
-	public void setNroAula(Integer nroAula) {
-		this.nroAula = nroAula;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public Integer getCantDeAlumnosPermitidos() {
 		return cantDeAlumnosPermitidos;
@@ -19,6 +18,8 @@ public class Aula {
 	public void setCantDeAlumnosPermitidos(Integer cantDeAlumnosPermitidos) {
 		this.cantDeAlumnosPermitidos = cantDeAlumnosPermitidos;
 	}
+	
+	
 	
 	
 }

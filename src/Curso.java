@@ -1,25 +1,32 @@
 public class Curso {
-	private Integer codCurso;
+	private Integer id;
 	private Materia materia;
 	private Aula aula;
 	private CicloLectivo cicloLectivo;
-	private String horario; 
-	private Integer dia;
+	private Turno turno;
 	
-	public Curso(Integer codCurso, Materia materia, Aula aula, CicloLectivo cicloLectivo, String horario, Integer dia) {
+	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno) {
 		super();
-		this.codCurso = codCurso;
+		this.id = id;
 		this.materia = materia;
 		this.aula = aula;
 		this.cicloLectivo = cicloLectivo;
-		this.horario = horario;
-		this.dia = dia;
+		this.turno = turno;
 	}
-	public Integer getCodCurso() {
-		return codCurso;
+	
+	public Turno getTurno() {
+		return turno;
 	}
-	public void setCodCurso(Integer codCurso) {
-		this.codCurso = codCurso;
+
+	public void setTurno(Turno turno) {
+		this.turno = turno;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public Materia getMateria() {
 		return materia;
@@ -39,16 +46,6 @@ public class Curso {
 	public void setCicloLectivo(CicloLectivo cicloLectivo) {
 		this.cicloLectivo = cicloLectivo;
 	}
-	public String getHorario() {
-		return horario;
-	}
-	public void setHorario(String horario) {
-		this.horario = horario;
-	}
-	public Integer getDia() {
-		return dia;
-	}
-	public void setDia(Integer dia) {
-		this.dia = dia;
-	}
+	
+	
 }

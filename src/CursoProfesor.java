@@ -1,12 +1,28 @@
 public class CursoProfesor {
+	private Integer id;
 	private Profesor profesor;
-	private Nota nota;
 	private Materia materia;
 	
-	public CursoProfesor(Profesor profesor, Nota nota, Materia materia) {
+	public CursoProfesor(Integer id,Profesor profesor, Nota nota, Materia materia) {
 		this.profesor = profesor;
-		this.nota = nota;
+		this.id = id;
 		this.materia = materia;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
 	}
 
 	public Profesor getAlumno() {
@@ -15,14 +31,6 @@ public class CursoProfesor {
 
 	public void setAlumno(Profesor profesor) {
 		this.profesor = profesor;
-	}
-
-	public Nota getNota() {
-		return nota;
-	}
-
-	public void setNota(Nota nota) {
-		this.nota = nota;
 	}
 
 	public Materia getMateria() {
