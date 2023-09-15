@@ -7,16 +7,25 @@ public class Alumno {
 	private Integer DNI;
 	private Integer edad;
 	
-	public Alumno(String nombre, String apellido, Integer dNI, Integer edad) {
+	public Alumno(Integer id,String nombre, String apellido, Integer dNI, Integer edad) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		DNI = dNI;
+		this.DNI = dNI;
 		this.edad = edad;
 	}
 
 	public String getNombre() {
 		return nombre;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public void setNombre(String nombre) {
