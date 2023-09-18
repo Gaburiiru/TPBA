@@ -14,6 +14,22 @@ public class Profesor {
 		this.edad = edad;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getDni() {
+		return dni;
+	}
+
+	public void setDni(Integer dni) {
+		this.dni = dni;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
