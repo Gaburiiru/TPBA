@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertFalse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,5 +51,39 @@ public class Universidad {
 	    //el profesor no existe y lo agregamos a la lista
 	    listaDeProfesor.add(profesorNuevo);
 	    return true;
+	}
+	public Boolean registrarMateria(Materia materiaARegistrar) {
+		
+		if(materiaARegistrar == null) {
+			return false;
+		}
+		
+		for(Materia materiaExistente : listaDeMaterias) {
+			if(materiaExistente.getId() == materiaARegistrar.getId()) {
+				return false;
+			}
+		}
+		listaDeMaterias.add(materiaARegistrar);
+		return true;
+	}
+	
+	public Boolean registrarCurso(Curso cursoARegistrar) {
+		
+		if(cursoARegistrar == null)
+			return false;
+		///me falta validar que el aula y el turno no sean el mismo 
+		for(Curso cursoExistente : listaDeCurso) {
+			
+			if(cursoExistente.getId() == cursoARegistrar.getId())
+				return false;
+			
+			if(cursoExistente.getAula().getId() == cursoARegistrar.getAula().getId() && 
+					cursoExistente.getTurno().equals(cursoARegistrar.getTurno())) {
+				return false;
+			}
+				
+		}
+		listaDeCurso.add(cursoARegistrar);
+		return true;
 	}
 }
