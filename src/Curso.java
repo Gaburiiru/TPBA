@@ -44,6 +44,9 @@ public class Curso {
 		return cicloLectivo;
 	}
 	public void setCicloLectivo(CicloLectivo cicloLectivo) {
+		
+		
+		
 		this.cicloLectivo = cicloLectivo;
 	}
 	

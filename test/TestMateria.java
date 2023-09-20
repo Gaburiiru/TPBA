@@ -45,6 +45,14 @@ public class TestMateria {
 		///
 		assertEquals(esperadoBoolean, obtenidoBoolean);
 	}
+	@Test
+	public void validarMateriasQueFaltanCursanAUnAlumno() {
+		//listaDeMateriaEsperado;
+		//listaDeMateria = obtenerMateriasQueFaltanParaCursanUnAlumno(idAlumno);
+		//for(Materia materiasAprobadasMateria : listaDeMateria) {
+			
+		//}
+	}
 	
 
 }

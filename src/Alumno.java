@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.List;
 
 public class Alumno {
@@ -6,14 +7,35 @@ public class Alumno {
 	private String apellido;
 	private Integer DNI;
 	private Integer edad;
+	private LocalDate fechaDeNac;
+	private LocalDate fechaDeIngreso;
 	
-	public Alumno(Integer id,String nombre, String apellido, Integer dNI, Integer edad) {
+	public Alumno(Integer id,String nombre, String apellido, Integer dNI, Integer edad,LocalDate fechaDeNac,
+			LocalDate fechaDeIngreso) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.DNI = dNI;
 		this.edad = edad;
+		this.fechaDeNac = fechaDeNac;
+		this.fechaDeIngreso = fechaDeIngreso;
+	}
+
+	public LocalDate getFechaDeNac() {
+		return fechaDeNac;
+	}
+
+	public void setFechaDeNac(LocalDate fechaDeNac) {
+		this.fechaDeNac = fechaDeNac;
+	}
+
+	public LocalDate getFechaDeIngreso() {
+		return fechaDeIngreso;
+	}
+
+	public void setFechaDeIngreso(LocalDate fechaDeIngreso) {
+		this.fechaDeIngreso = fechaDeIngreso;
 	}
 
 	public String getNombre() {
