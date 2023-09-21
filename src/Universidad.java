@@ -28,7 +28,7 @@ public class Universidad {
 	public Boolean registrarAlumno(Alumno alumnoNuevo) {
 	    //validar que el alumno no exista
 	    for (Alumno alumnoExistente : listaDeAlumno) {
-	        if (alumnoExistente.getId() == alumnoNuevo.getId()) {
+	        if (alumnoExistente.getDNI() == alumnoNuevo.getDNI()) {
 	            //el alumno ya existe, no se puede agregar nuevamente
 	            return false;
 	        }

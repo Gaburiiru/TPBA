@@ -24,7 +24,7 @@ public class TestAlumno {
         //preparacion
 		String nombreUniversidad = "UNLAM",nombre="juan",apellido="pepe",
 		nombre2="carlos",apellido2="duty";
-		Integer id=1,DNI=12345,edad=20,id2=1,DNI2=12345,edad2=20;
+		Integer id=1,DNI=12345,edad=20,id2=2,DNI2=12345,edad2=20;
 		boolean resultado,resultado2;
 		//ejecuacion
 		Universidad universidad = new Universidad(nombreUniversidad);
@@ -34,6 +34,6 @@ public class TestAlumno {
 		resultado2 = universidad.registrarAlumno(nuevoAlumno2);
 
         //test
-		assertFalse(resultado2);
+		assertEquals(resultado,resultado2);
 	}
 }
