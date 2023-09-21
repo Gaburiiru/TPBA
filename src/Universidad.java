@@ -44,7 +44,7 @@ public class Universidad {
 	public Boolean registrarProfesor(Profesor profesorNuevo) {
 		// validar que el profesor no exista
 		for (Profesor profesorExistente : listaDeProfesor) {
-			if (profesorExistente.getId() == profesorNuevo.getId()) {
+			if (profesorExistente.getDNI() == profesorNuevo.getDNI()) {
 				// el profesor ya existe, no se puede agregar nuevamente
 				return false;
 			}

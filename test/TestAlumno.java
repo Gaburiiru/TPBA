@@ -39,12 +39,11 @@ public class TestAlumno {
 				DNI2=127,
 				edad2=20;
 		
-		Boolean resultadoAlumno1;
-		Boolean resultadoObtenido;
+		Boolean resultadoAlumno1,resultadoObtenido;
 		LocalDate fechaDeNac = LocalDate.of(1999,11,1),
 				fechaDeIngreso = LocalDate.of(2020,03,1),
-				fechaDeNac2 = LocalDate.of(1999,11,1),
-				fechaDeIngreso2 = LocalDate.of(2020,03,1);
+				fechaDeNac2 = LocalDate.of(2000,04,1),
+				fechaDeIngreso2 = LocalDate.of(2021,03,1);
 		
 		Universidad universidad = new Universidad(nombreUniversidad);
 		
@@ -57,5 +56,6 @@ public class TestAlumno {
 		resultadoObtenido = universidad.registrarAlumno(nuevoAlumno2);
 
         //test
+		assertNotEquals(resultadoAlumno1,resultadoObtenido);
 	}
 }
