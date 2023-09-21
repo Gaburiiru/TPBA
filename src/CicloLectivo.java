@@ -46,6 +46,18 @@ public class CicloLectivo {
 		this.fechaFinInscripcion = fechaFinInscripcion;
 	}
 
-	
+	public Boolean compararCicloLectivo( CicloLectivo cicloLectivoAComparar) {
+		// TODO Auto-generated method stub
+		///validamos los localDate devuelve true o false
+		
+		///si la fecha de inicio de ciclo lectivo > fecha fin cicloLectivoAComparar 
+		
+		if(this.fechaInicioCicloLectivo.compareTo(cicloLectivoAComparar.getFechaFinCicloLectivo()) > 0 &&
+				this.fechaFinCicloLectivo.compareTo(cicloLectivoAComparar.getFechaInicioCicloLectivo())<0	){
+				return true;
+				
+		}
+		return false;
+	}
 	
 }

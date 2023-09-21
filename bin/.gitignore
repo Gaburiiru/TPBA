@@ -1,14 +1,2 @@
-/.project
-/Alumno.class
-/Aula.class
-/CicloLectivo.class
-/Curso.class
-/CursoAlumno.class
-/CursoProfesor.class
-/Materia.class
-/Nota.class
-/Profesor.class
-/TestAlumno.class
-/Turno.class
-/Universidad.class
-/TestProfesor.class
+/TestCurso.class
+/TestMateria.class
