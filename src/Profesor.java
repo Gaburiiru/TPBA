@@ -1,17 +1,23 @@
+import java.time.LocalDate;
+
 public class Profesor {
 	private Integer id;
 	private String nombre;
 	private String apellido;
 	private Integer dni;
 	private Integer edad;
+	private LocalDate fechaDeIngreso;
+	private LocalDate fechaDeNac;
 	
-	public Profesor(Integer id,String nombre, String apellido, Integer dni, Integer edad) {
+	public Profesor(Integer id,String nombre, String apellido, Integer dni, Integer edad,LocalDate fechaDeNac,LocalDate fechaDeIngreso) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 		this.edad = edad;
+		this.fechaDeIngreso = fechaDeIngreso;
+		this.fechaDeNac = fechaDeNac;
 	}
 
 	public Integer getId() {

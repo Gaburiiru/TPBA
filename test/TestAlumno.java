@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import org.junit.Test;
 
@@ -10,9 +12,11 @@ public class TestAlumno {
 		String nombreUniversidad = "UNLAM",nombre="juan",apellido="pepe";
 		Integer id=1,DNI=12345,edad=20;
 		boolean resultado;
+		LocalDate fechaDeNac = LocalDate.of(1999,11,1),
+				fechaDeIngreso = LocalDate.of(2020,03,1);
 		//ejecuacion
 		Universidad universidad = new Universidad(nombreUniversidad);
-		Alumno nuevoAlumno = new Alumno(id,nombre,apellido,DNI,edad);
+		Alumno nuevoAlumno = new Alumno(id,nombre,apellido,DNI,edad,fechaDeNac,fechaDeIngreso);
 		resultado = universidad.registrarAlumno(nuevoAlumno);
 
         //test
@@ -35,13 +39,16 @@ public class TestAlumno {
 				DNI2=127,
 				edad2=20;
 		
-		Boolean resultadoAlumno1;
-		Boolean resultadoObtenido;
+		Boolean resultadoAlumno1,resultadoObtenido;
+		LocalDate fechaDeNac = LocalDate.of(1999,11,1),
+				fechaDeIngreso = LocalDate.of(2020,03,1),
+				fechaDeNac2 = LocalDate.of(2000,04,1),
+				fechaDeIngreso2 = LocalDate.of(2021,03,1);
 		
 		Universidad universidad = new Universidad(nombreUniversidad);
 		
-		Alumno nuevoAlumno = new Alumno(id,nombre,apellido,DNI,edad);
-		Alumno nuevoAlumno2 = new Alumno(id2,nombre2,apellido2,DNI2,edad2);
+		Alumno nuevoAlumno = new Alumno(id,nombre,apellido,DNI,edad,fechaDeNac,fechaDeIngreso);
+		Alumno nuevoAlumno2 = new Alumno(id2,nombre2,apellido2,DNI2,edad2,fechaDeNac2,fechaDeIngreso2);
 		
 		resultadoAlumno1 = universidad.registrarAlumno(nuevoAlumno);
 		
