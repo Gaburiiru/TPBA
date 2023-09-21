@@ -53,83 +53,21 @@ public class Universidad {
 		listaDeProfesor.add(profesorNuevo);
 		return true;
 	}
-
+	
+	
+	///metodos de materia
 	public Boolean registrarMateria(Materia materiaARegistrar) {
-
-		if (materiaARegistrar == null) {
+		///si la materia a registrar es nulo no la podemos registrar
+		if (materiaARegistrar == null) 
 			return false;
-		}
-
-		for (Materia materiaExistente : listaDeMaterias) {
-			if (materiaExistente.getId() == materiaARegistrar.getId()) {
-				return false;
-			}
-		}
+		///si ya existe la materia entonces no podemos registrar materia 
+		if(existeMateria(materiaARegistrar.getId()))
+			return false;
+		
 		listaDeMaterias.add(materiaARegistrar);
 		return true;
 	}
-
-	public Boolean registrarCurso(Curso cursoARegistrar) {
-
-		/// verificar que la comision no este la misma materia, cicloLectivo y el mismo
-		/// turno
-
-		if (cursoARegistrar == null)
-			return false;
-		/// me falta validar que el aula y el turno no sean el mismo
-		for (Curso cursoExistente : listaDeCurso) {
-
-			if (cursoExistente.getId() == cursoARegistrar.getId())
-				return false;
-
-			if (cursoExistente.getMateria().getId() == cursoARegistrar.getMateria().getId()) {
-				if (existeCicloLectivo(cursoARegistrar.getCicloLectivo())) {
-					if (cursoExistente.getCicloLectivo().compararCicloLectivo(cursoARegistrar.getCicloLectivo())) {
-						if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
-							return false;
-					}
-				}
-			}
-
-		}
-		listaDeCurso.add(cursoARegistrar);
-		return true;
-	}
-	
-	private Curso buscarCurso(Integer idCursoABuscar) {
-		Curso cursoEncontrado=null;
-		for (Curso cursoExistente : listaDeCurso) {
-			if(cursoExistente.getId() == idCursoABuscar) {
-				cursoEncontrado = cursoExistente;
-			}
-		}
-		return cursoEncontrado;
-	}
-
-	private Boolean existeCicloLectivo(CicloLectivo cicloLectivoAComporar) {
-
-		for (CicloLectivo cicloExistente : listaDeCiclosLectivos) {
-			if (cicloExistente.compararCicloLectivo(cicloLectivoAComporar))
-				return true;
-		}
-		return false;
-	}
-
-	public Boolean agregarCorrelativa(Integer idMateria, Integer idCorrelativa) {
-
-		Materia materiaEncontrada = buscarMateria(idMateria);
-		Materia materiaCorrelativaEncotrada = buscarMateria(idCorrelativa);
-
-		if (materiaCorrelativaEncotrada != null && materiaEncontrada != null) {
-			materiaEncontrada.setCorrelativa(idCorrelativa);
-			return true;
-		}
-
-		return false;
-
-	}
-
-	public Materia buscarMateria(Integer idMateria) {
+	private Materia buscarMateria(Integer idMateria) {
 
 		Materia materiaEncontrada = null;
 
@@ -140,7 +78,68 @@ public class Universidad {
 		}
 		return materiaEncontrada;
 	}
+	
+	private Boolean existeMateria(Integer idMateriaAComparar) {
+		for (Materia materiaExistente : listaDeMaterias) {
+			if (materiaExistente.getId() == idMateriaAComparar) {
+				return true;
+			}
+		}
+		return false;
+	}
+	///metodos para curso
+	public Boolean registrarCurso(Curso cursoARegistrar) {
+		///si el curso a registrar es null retorna falso
+		if (cursoARegistrar == null)
+			return false;
+		///si ya existe el curso no se puede registrar
+		if (existeCurso(cursoARegistrar.getId()))
+			return false;
+		///si no existe el ciclo lectivo en la lista de ciclo lectivos entonces no podemos registrar el curso
+		if (!existeCicloLectivo(cursoARegistrar.getCicloLectivo()))
+			return false;
+		
+		if (!verificarCurso(cursoARegistrar))
+			return false;
 
+		listaDeCurso.add(cursoARegistrar);
+		return true;
+	}
+
+	private Boolean verificarCurso(Curso cursoARegistrar) {
+		/// verificar que la comision no este la misma materia, cicloLectivo y el mismo turno
+		for (Curso cursoExistente : listaDeCurso) {
+			if (cursoExistente.getMateria().getId() == cursoARegistrar.getMateria().getId()) {
+				if (cursoExistente.getCicloLectivo().compararCicloLectivo(cursoARegistrar.getCicloLectivo())) {
+					if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
+						return false;
+
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private Boolean existeCurso(Integer idCurso) {
+		for (Curso cursoExistente : listaDeCurso) {
+			if (cursoExistente.getId() == idCurso)
+				return true;
+		}
+		return false;
+	}
+
+	private Curso buscarCurso(Integer idCursoABuscar) {
+		Curso cursoEncontrado = null;
+		for (Curso cursoExistente : listaDeCurso) {
+			if (cursoExistente.getId() == idCursoABuscar) {
+				cursoEncontrado = cursoExistente;
+			}
+		}
+		return cursoEncontrado;
+	}
+	
+	////metodos de ciclo lectivo
 	public Boolean agregarCicloLectivo(CicloLectivo cicloLectivoAAgregar) {
 		for (CicloLectivo cicloExistente : listaDeCiclosLectivos) {
 			if (cicloExistente.compararCicloLectivo(cicloLectivoAAgregar)) {
@@ -150,4 +149,40 @@ public class Universidad {
 		listaDeCiclosLectivos.add(cicloLectivoAAgregar);
 		return true;
 	}
+	
+	private Boolean existeCicloLectivo(CicloLectivo cicloLectivoAComporar) {
+
+		for (CicloLectivo cicloExistente : listaDeCiclosLectivos) {
+			if (cicloExistente.compararCicloLectivo(cicloLectivoAComporar))
+				return true;
+		}
+		return false;
+	}
+	
+	///metodos para correlatividad
+	public Boolean agregarCorrelativa(Integer idMateria, Integer idCorrelativa) {
+
+		Materia materiaEncontrada = buscarMateria(idMateria);
+		Materia materiaCorrelativaEncotrada = buscarMateria(idCorrelativa);
+
+		if (materiaCorrelativaEncotrada != null && materiaEncontrada != null) {
+			materiaEncontrada.agregarCorrelativa(idCorrelativa);
+			return true;
+		}
+
+		return false;
+	}
+	
+	public Boolean eliminarCorrelatividad(Integer idMateria,Integer idCorrelatividad) {
+		///verificamos si existe la materia y la materia correlativa si alguna de las dos no existe cagamos
+		if(!existeMateria(idMateria) || !existeMateria(idCorrelatividad))
+			return false;
+		
+		Materia materiaEncontrada = buscarMateria(idMateria);
+		
+		materiaEncontrada.sacarCorrelativa(idCorrelatividad);
+		
+		return true;
+	}
+	
 }
