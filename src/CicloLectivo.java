@@ -47,16 +47,17 @@ public class CicloLectivo {
 	}
 
 	public Boolean compararCicloLectivo( CicloLectivo cicloLectivoAComparar) {
-		// TODO Auto-generated method stub
-		///validamos los localDate devuelve true o false
+		///si no son iguales nos fijamos que no se superpongan las fechas 
 		
-		///si la fecha de inicio de ciclo lectivo > fecha fin cicloLectivoAComparar 
-		
-		if(this.fechaInicioCicloLectivo.compareTo(cicloLectivoAComparar.getFechaFinCicloLectivo()) > 0 &&
-				this.fechaFinCicloLectivo.compareTo(cicloLectivoAComparar.getFechaInicioCicloLectivo())<0	){
-				return true;
-				
+		if(this.fechaInicioCicloLectivo.compareTo(cicloLectivoAComparar.getFechaInicioCicloLectivo()) == 0 &&
+				this.fechaFinCicloLectivo.compareTo(cicloLectivoAComparar.getFechaFinCicloLectivo()) == 0) {
+			return true;
 		}
+		return false;
+	}
+	public boolean estaEnFechaDeIncripcion(LocalDate hoy) {
+		if(hoy.compareTo(fechaInicioInscripcion) >= 0 && hoy.compareTo(fechaFinInscripcion) <=0 )
+			return true;
 		return false;
 	}
 	

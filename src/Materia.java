@@ -24,12 +24,25 @@ public class Materia {
 		return id;
 	}
 	
-	public void setCorrelativa(Integer IdMateriaCorrelativa) {
-		correlativas.add(IdMateriaCorrelativa);
+	public List<Integer> getCorrelativas() {
+		return correlativas;
+	}
+
+
+	public void setCorrelativa(List<Integer> correlativas) {
+		correlativas.addAll(correlativas);
 	}
 	
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public void agregarCorrelativa(Integer idCorrelativa) {
+		correlativas.add(idCorrelativa);
+	}
+	
+	public void sacarCorrelativa(Integer idCorrelatividad) {
+		// TODO Auto-generated method stub
+		correlativas.remove(idCorrelatividad);
 	}
 	
 }
