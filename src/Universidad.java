@@ -108,12 +108,13 @@ public class Universidad {
 	}
 
 	private Boolean verificarCurso(Curso cursoARegistrar) {
-		/// verificar que la comision no este la misma materia, cicloLectivo y el mismo turno
+		/// verificar que la comision no este la misma materia, cicloLectivo,dia de cursada  y el mismo turno
 		for (Curso cursoExistente : listaDeCurso) {
 			if (cursoExistente.getMateria().getId() == cursoARegistrar.getMateria().getId()) {
 				if (cursoExistente.getCicloLectivo().compararCicloLectivo(cursoARegistrar.getCicloLectivo())) {
-					if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
-						return false;
+					if(cursoExistente.getDiaDeCursada() == cursoARegistrar.getDiaDeCursada())
+						if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
+							return false;
 
 				}
 			}
@@ -196,7 +197,7 @@ public class Universidad {
 		
 		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
 			if(cursoAlumno.estaAprobado()) {
-				listaDeMateriasAprobadas.add(cursoAlumno.getMateria());
+				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
 			}
 		}
 		
@@ -272,15 +273,68 @@ public class Universidad {
 		if(!verificarQueNoEsteFueraDeLaFechaDeInscripcion(cursoAInscribir.getCicloLectivo()))
 			return false;
 		//No se puede inscribir el alumno si excede la cantidad de alumnos permitidos en el aula
-		if(!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula()))
+		if(!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula(),cursoAInscribir.cantidadDeAlumnosInscriptos()))
 			return false;
 		//No se puede inscribir el Alumno si ya está inscripto a otra comisión el mismo día y Turno
+		if(!verificarQueElAlumnoNoEsteIscriptoAOtroCursoElMismoDiaYTurno(cursoAInscribir,dniAlumno))
+			return false;
 		//No se puede inscribir a una materia que haya aprobado previamente
-
+		if(!verificarQueNoHayaAprobadoLaMateriaAnteriormente(cursoAInscribir,dniAlumno))
+			return false;
+		
+		CursoAlumno cursoAlumno = new CursoAlumno(buscarAlumno(dniAlumno), cursoAInscribir);
+		
 		return true;
 	}
 	
-	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula) {
+	private Alumno buscarAlumno(Integer dniAlumno) {
+		// TODO Auto-generated method stub
+		Alumno alumnoEncontrado = null;
+		for (Alumno alumno : listaDeAlumno) {
+			if(alumno.getDNI() == dniAlumno) {
+				alumnoEncontrado = alumno;
+				return alumnoEncontrado;
+			}
+		}
+		
+		return null;
+	}
+
+	private boolean verificarQueNoHayaAprobadoLaMateriaAnteriormente(Curso cursoAInscribir,Integer dniAlumno) {
+		// TODO Auto-generated method stub
+		List<Materia> materiasAprobadPorElAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
+		
+		for(Materia materiasAprobada: materiasAprobadPorElAlumno) {
+			if(cursoAInscribir.getMateria().equals(materiasAprobada))
+				return false;
+		}
+		return true;
+	}
+
+	private boolean verificarQueElAlumnoNoEsteIscriptoAOtroCursoElMismoDiaYTurno(Curso cursoAInscribir,Integer dniAlumno) {
+		///buscamos los cursos que estan inscriptos el alumno
+		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
+		
+		for(CursoAlumno cursosDeAlumno: cursosDelAlumno) {
+			if(verificarSiSonDelMismoDiaYTurno(cursosDeAlumno.getCursoDelAlumno(),cursoAInscribir))
+				return false;
+		}
+		
+		return true;
+	}
+
+	private boolean verificarSiSonDelMismoDiaYTurno(Curso cursosDelAlumno, Curso cursoAInscribir) {
+		
+		if(cursosDelAlumno.getCicloLectivo().compararCicloLectivo(cursoAInscribir.getCicloLectivo()))
+			if(cursosDelAlumno.getDiaDeCursada().equals(cursoAInscribir.getDiaDeCursada()))
+				if(cursosDelAlumno.getTurno().equals(cursoAInscribir.getTurno()))
+					return true;
+		return false;
+	}
+
+	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula,Integer cantidadAlumnosInscriptos) {
+		if(aula.getCantDeAlumnosPermitidos() < cantidadAlumnosInscriptos)
+			return true;
 		
 		return false;
 	}
@@ -318,7 +372,7 @@ public class Universidad {
 		
 		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
 			if(cursoAlumno.estaCursado() || cursoAlumno.estaAprobado()) {
-				listaDeMateriasAprobadas.add(cursoAlumno.getMateria());
+				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
 			}
 		}
 		

@@ -5,14 +5,16 @@ public class Curso {
 	private CicloLectivo cicloLectivo;
 	private Turno turno;
 	private Integer cantidadDeAlumnosInscriptos;
+	private DiaDeLaSemana diaDeCursada;
 	
-	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno) {
+	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno,DiaDeLaSemana diaDeCursada) {
 		super();
 		this.id = id;
 		this.materia = materia;
 		this.aula = aula;
 		this.cicloLectivo = cicloLectivo;
 		this.turno = turno;
+		this.diaDeCursada = diaDeCursada;
 		this.cantidadDeAlumnosInscriptos = 0;
 	}
 	
@@ -55,4 +57,13 @@ public class Curso {
 	public void aumentarCantidadDeAlumnosInscriptos() {
 		this.cantidadDeAlumnosInscriptos++;
 	}
+
+	public DiaDeLaSemana getDiaDeCursada() {
+		return diaDeCursada;
+	}
+
+	public void setDiaDeCursada(DiaDeLaSemana diaDeCursada) {
+		this.diaDeCursada = diaDeCursada;
+	}
+	
 }

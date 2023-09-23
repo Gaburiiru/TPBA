@@ -22,7 +22,8 @@ public class TestCurso {
 		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion, fechaFinInscripcion);
 		
 		Turno turnoString = Turno.MAÑANA;
-		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
+		DiaDeLaSemana diaDeCursada = DiaDeLaSemana.JUEVES;
+		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
 		
 		Universidad universidad = new Universidad("Unlam");
 		Boolean esperadoBoolean = true;
@@ -52,8 +53,9 @@ public class TestCurso {
 		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion, fechaFinInscripcion);
 		
 		Turno turnoString = Turno.MAÑANA;
-		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
-		Curso cursoRepetido = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
+		DiaDeLaSemana diaDeCursada = DiaDeLaSemana.JUEVES;
+		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
+		Curso cursoRepetido = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
 		
 		Universidad universidad = new Universidad("Unlam");
 		Boolean esperadoBoolean = false;
@@ -83,8 +85,9 @@ public class TestCurso {
 		
 		Turno turnoString = Turno.MAÑANA;
 		///
-		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
-		Curso cursoRepetido = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
+		DiaDeLaSemana diaDeCursada = DiaDeLaSemana.JUEVES;
+		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
+		Curso cursoRepetido = new Curso(20, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
 		
 		Universidad universidad = new Universidad("Unlam");
 		Boolean esperadoBoolean = false;
@@ -116,7 +119,8 @@ public class TestCurso {
 		
 		Turno turnoString = Turno.MAÑANA;
 		///
-		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString);
+		DiaDeLaSemana diaDeCursada = DiaDeLaSemana.JUEVES;
+		Curso cursoAregistrar = new Curso(1, materia, aulaDeCurso, cicloLectivo,turnoString,diaDeCursada);
 		
 		Universidad universidad = new Universidad("Unlam");
 		Boolean esperadoBoolean = false;

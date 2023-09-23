@@ -7,13 +7,13 @@ public class CursoAlumno {
 	private Integer id;
 	private Alumno alumno;
 	private List<Nota> listaDeNotas;///que reciba solo 3 notas , 1erParcial, 2doPArcial o algun recuperatorio  
-	private Materia materia;
+	private Curso cursoDelAlumno;
 	
-	public CursoAlumno(Alumno alumno, Materia materia) {
+	public CursoAlumno(Alumno alumno, Curso cursoDelAlumno) {
 		super();
 		this.alumno = alumno;
 		this.listaDeNotas = new LinkedList<>();
-		this.materia = materia;
+		this.cursoDelAlumno = cursoDelAlumno; 
 	}
 
 	public Alumno getAlumno() {
@@ -24,12 +24,30 @@ public class CursoAlumno {
 		this.alumno = alumno;
 	}
 
-	public Materia getMateria() {
-		return materia;
+	
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setMateria(Materia materia) {
-		this.materia = materia;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public List<Nota> getListaDeNotas() {
+		return listaDeNotas;
+	}
+
+	public void setListaDeNotas(List<Nota> listaDeNotas) {
+		this.listaDeNotas = listaDeNotas;
+	}
+
+	public Curso getCursoDelAlumno() {
+		return cursoDelAlumno;
+	}
+
+	public void setCursoDelAlumno(Curso cursoDelAlumno) {
+		this.cursoDelAlumno = cursoDelAlumno;
 	}
 
 	public boolean estaAprobado() {
