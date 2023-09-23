@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertFalse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Universidad {
 	public Boolean registrarAlumno(Alumno alumnoNuevo) {
 		// validar que el alumno no exista
 		for (Alumno alumnoExistente : listaDeAlumno) {
-			if (alumnoExistente.getDNI() == alumnoNuevo.getDNI()) {
+			if (alumnoExistente.getDNI().equals(alumnoNuevo.getDNI())) {
 				// el alumno ya existe, no se puede agregar nuevamente
 				return false;
 			}
@@ -44,7 +43,7 @@ public class Universidad {
 	public Boolean registrarProfesor(Profesor profesorNuevo) {
 		// validar que el profesor no exista
 		for (Profesor profesorExistente : listaDeProfesor) {
-			if (profesorExistente.getDNI() == profesorNuevo.getDNI()) {
+			if (profesorExistente.getDNI().equals(profesorNuevo.getDNI())) {
 				// el profesor ya existe, no se puede agregar nuevamente
 				return false;
 			}
@@ -52,6 +51,22 @@ public class Universidad {
 		// el profesor no existe y lo agregamos a la lista
 		listaDeProfesor.add(profesorNuevo);
 		return true;
+	}
+
+	public Boolean asignarDocentesAComision(Integer idCurso, CursoProfesor profesorNuevo) {
+		
+		if (idCurso != null) {
+			for (CursoProfesor profesorAsignado : listaDeCursoProfesor) {
+				if (profesorAsignado.getProfesor().getDNI().equals(profesorNuevo.getProfesor().getDNI())) {
+					return false;
+				}
+			}
+			if(listaDeAlumno.size() == 1 || listaDeAlumno.size() % 20 == 0) {
+				listaDeCursoProfesor.add(profesorNuevo);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Boolean registrarMateria(Materia materiaARegistrar) {
@@ -95,11 +110,11 @@ public class Universidad {
 		listaDeCurso.add(cursoARegistrar);
 		return true;
 	}
-	
+
 	private Curso buscarCurso(Integer idCursoABuscar) {
-		Curso cursoEncontrado=null;
+		Curso cursoEncontrado = null;
 		for (Curso cursoExistente : listaDeCurso) {
-			if(cursoExistente.getId() == idCursoABuscar) {
+			if (cursoExistente.getId() == idCursoABuscar) {
 				cursoEncontrado = cursoExistente;
 			}
 		}

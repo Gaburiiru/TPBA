@@ -28,14 +28,6 @@ public class Profesor {
 		this.id = id;
 	}
 
-	public Integer getDni() {
-		return dni;
-	}
-
-	public void setDni(Integer dni) {
-		this.dni = dni;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}

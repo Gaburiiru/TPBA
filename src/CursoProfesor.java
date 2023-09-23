@@ -3,7 +3,7 @@ public class CursoProfesor {
 	private Profesor profesor;
 	private Materia materia;
 	
-	public CursoProfesor(Integer id,Profesor profesor, Nota nota, Materia materia) {
+	public CursoProfesor(Integer id,Profesor profesor, Materia materia) {
 		this.profesor = profesor;
 		this.id = id;
 		this.materia = materia;
