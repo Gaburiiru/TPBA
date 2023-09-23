@@ -24,6 +24,11 @@ public class Materia {
 		return id;
 	}
 	
+	public List<Integer> getCorrelativas() {
+		return correlativas;
+	}
+
+
 	public void setCorrelativa(List<Integer> correlativas) {
 		correlativas.addAll(correlativas);
 	}

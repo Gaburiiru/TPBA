@@ -55,5 +55,10 @@ public class CicloLectivo {
 		}
 		return false;
 	}
+	public boolean estaEnFechaDeIncripcion(LocalDate hoy) {
+		if(hoy.compareTo(fechaInicioInscripcion) >= 0 && hoy.compareTo(fechaFinInscripcion) <=0 )
+			return true;
+		return false;
+	}
 	
 }
