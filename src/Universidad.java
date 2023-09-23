@@ -121,7 +121,7 @@ public class Universidad {
 
 		return true;
 	}
-
+	
 	private Boolean existeCurso(Integer idCurso) {
 		for (Curso cursoExistente : listaDeCurso) {
 			if (cursoExistente.getId() == idCurso)
