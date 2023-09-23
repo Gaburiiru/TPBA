@@ -183,4 +183,34 @@ public class Universidad {
 		return true;
 	}
 	
+	///metodo para obtener las materias que tiene aprobadas 
+	
+	public List<Materia> obtenerMateriasAprobadasDeUnAlumno(Integer idAlumno){
+		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
+		///traer los cursos que cursa el alumno 
+		///verificar que las notas de esos cursos sean mayor o igual a 7
+		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(idAlumno); 
+		
+		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
+			if(cursoAlumno.estaAprobado()) {
+				listaDeMateriasAprobadas.add(cursoAlumno.getMateria());
+			}
+		}
+		
+		return listaDeMateriasAprobadas;
+	}
+
+	private List<CursoAlumno> buscarCursosDelAlumno(Integer idAlumno) {
+		// TODO Auto-generated method stub
+		
+		List<CursoAlumno> cursosDelAlumnos = new ArrayList<>();
+		
+		for (CursoAlumno cursoAlumno : cursosDelAlumnos) {
+			if(cursoAlumno.getAlumno().getId() == idAlumno) {
+				cursosDelAlumnos.add(cursoAlumno);
+			}
+		}
+		return cursosDelAlumnos;
+	}
+	
 }
