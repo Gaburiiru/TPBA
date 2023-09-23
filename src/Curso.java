@@ -4,6 +4,7 @@ public class Curso {
 	private Aula aula;
 	private CicloLectivo cicloLectivo;
 	private Turno turno;
+	private Integer cantidadDeAlumnosInscriptos;
 	
 	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno) {
 		super();
@@ -12,6 +13,7 @@ public class Curso {
 		this.aula = aula;
 		this.cicloLectivo = cicloLectivo;
 		this.turno = turno;
+		this.cantidadDeAlumnosInscriptos = 0;
 	}
 	
 	public Turno getTurno() {
@@ -44,11 +46,13 @@ public class Curso {
 		return cicloLectivo;
 	}
 	public void setCicloLectivo(CicloLectivo cicloLectivo) {
-		
-		
-		
 		this.cicloLectivo = cicloLectivo;
 	}
+	public Integer cantidadDeAlumnosInscriptos() {
+		return this.cantidadDeAlumnosInscriptos;
+	}
 	
-	
+	public void aumentarCantidadDeAlumnosInscriptos() {
+		this.cantidadDeAlumnosInscriptos++;
+	}
 }
