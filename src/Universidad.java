@@ -111,12 +111,11 @@ public class Universidad {
 		/// verificar que la comision no este la misma materia, cicloLectivo,dia de cursada  y el mismo turno
 		for (Curso cursoExistente : listaDeCurso) {
 			if (cursoExistente.getMateria().getId() == cursoARegistrar.getMateria().getId()) {
-				if (cursoExistente.getCicloLectivo().compararCicloLectivo(cursoARegistrar.getCicloLectivo())) {
-					if(cursoExistente.getDiaDeCursada() == cursoARegistrar.getDiaDeCursada())
-						if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
-							return false;
-
-				}
+				if (verificarSiSonDelMismoCicloLectivoDiaYTurno(cursoExistente, cursoARegistrar))
+					return false;
+			}else {
+				if(verificarSiSonDelMismoCicloLectivoDiaYTurno(cursoExistente, cursoARegistrar))
+					return false;
 			}
 		}
 
@@ -205,7 +204,6 @@ public class Universidad {
 	}
 
 	private List<CursoAlumno> buscarCursosDelAlumno(Integer dniAlumno) {
-		// TODO Auto-generated method stub
 		
 		List<CursoAlumno> cursosDelAlumnos = new ArrayList<>();
 		
@@ -288,7 +286,6 @@ public class Universidad {
 	}
 	
 	private Alumno buscarAlumno(Integer dniAlumno) {
-		// TODO Auto-generated method stub
 		Alumno alumnoEncontrado = null;
 		for (Alumno alumno : listaDeAlumno) {
 			if(alumno.getDNI() == dniAlumno) {
@@ -316,14 +313,14 @@ public class Universidad {
 		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
 		
 		for(CursoAlumno cursosDeAlumno: cursosDelAlumno) {
-			if(verificarSiSonDelMismoDiaYTurno(cursosDeAlumno.getCursoDelAlumno(),cursoAInscribir))
+			if(verificarSiSonDelMismoCicloLectivoDiaYTurno(cursosDeAlumno.getCursoDelAlumno(),cursoAInscribir))
 				return false;
 		}
 		
 		return true;
 	}
 
-	private boolean verificarSiSonDelMismoDiaYTurno(Curso cursosDelAlumno, Curso cursoAInscribir) {
+	private boolean verificarSiSonDelMismoCicloLectivoDiaYTurno(Curso cursosDelAlumno, Curso cursoAInscribir) {
 		
 		if(cursosDelAlumno.getCicloLectivo().compararCicloLectivo(cursoAInscribir.getCicloLectivo()))
 			if(cursosDelAlumno.getDiaDeCursada().equals(cursoAInscribir.getDiaDeCursada()))
@@ -386,6 +383,18 @@ public class Universidad {
 				return true;
 		}
 		return false;
+	}
+	
+	//// lista de materias es el plan de estudios 
+	public List<Materia> obtenerMateriasQueFaltanCursarDeUnAlumno(Integer dniAlumno) {
+		
+		List<Materia> materiasAprobadasDelAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
+		List<Materia> materiasQueFaltanCursarDeUnAlumno = listaDeMaterias;
+		
+		if(materiasQueFaltanCursarDeUnAlumno.removeAll(materiasAprobadasDelAlumno))
+			return materiasQueFaltanCursarDeUnAlumno;
+		
+		return null;
 	}
 	
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 public class TestRegistrarAula {
 
 	@Test
-	public void queSePuedaRegistarUnAulaAUnCurso() {
+	public void queSePuedaAsignarUnAulaAUnCurso() {
 		
 		Integer idAulaARegistrarI = 20;
 		Aula aulaARegistar = new Aula(idAulaARegistrarI, 50);
@@ -25,7 +25,7 @@ public class TestRegistrarAula {
 		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion, fechaFinInscripcion);
 		unlam.agregarCicloLectivo(cicloLectivo);
 		Integer idCurso = 1;
-		Curso curso = new Curso(idCurso, null, null, cicloLectivo, null);
+		Curso curso = new Curso(idCurso, null, null, cicloLectivo, null,null);
 		
 		
 		unlam.registrarCurso(curso);
@@ -39,10 +39,6 @@ public class TestRegistrarAula {
 		//
 		assertEquals(idAulaARegistrarI, idDelAulaDelCurso);
 		
-		
-		
+	
 	}
-	
-	
-
 }

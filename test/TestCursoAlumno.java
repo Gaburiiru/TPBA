@@ -15,7 +15,7 @@ public class TestCursoAlumno {
 		Alumno alumno1 = new Alumno(2, "emir", "masi", dniAlumno, null, null, null);
 		
 		
-		Curso curso1 = new Curso(1,materia1,null,null,null);
+		Curso curso1 = new Curso(1,materia1,null,null,null,null);
 		Universidad unlam = new Universidad("unlam");
 		unlam.registrarAlumno(alumno1);
 		unlam.registrarMateria(materia1);
