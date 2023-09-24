@@ -1,107 +1,175 @@
 import static org.junit.Assert.*;
-
 import java.time.LocalDate;
-
 import org.junit.Test;
 
 public class TestCursoProfesor {
-
 	@Test
 	public void testAgregarProfesorEnCurso() {
-		// preparacion
-		String nombreUniversidad = "UNLAM", nombre = "rodolfo", apellido = "perez", materia = "matematica",
-				nombreAlumno = "juan", apellidoAlumno = "pepe";
-		Integer id = 1, DNI = 12345, edad = 20, idAlumno = 1, DNIAlumno = 12345, edadAlumno = 18;
+		// Preparación
+		Materia materia = new Materia(1, "PB2");
+		Aula aulaDeCurso = new Aula(1, 50);
+		String nombreUniversidad = "UNLAM", nombre = "rodolfo", apellido = "perez", nombreAlumno = "juan",
+				apellidoAlumno = "pepe";
+		Integer id = 1, idCurso = 1, DNI = 12345, edad = 20, idAlumno = 1, DNIAlumno = 12345, edadAlumno = 18;
 		Boolean resultadoObtenido;
-		LocalDate fechaDeNac = LocalDate.of(1999, 11, 1), fechaDeIngreso = LocalDate.of(2021, 03, 1),
-				fechaDeNacAlumno = LocalDate.of(1999, 11, 1), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1);
+		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
+				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
+				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
+				fechaInicioInscripcion = LocalDate.of(2023, 9, 23), fechaFinInscripcion = LocalDate.of(2023, 9, 23);
 
-		// ejecuacion
+		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
+		Turno turnoString = Turno.MAÑANA;
+		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion,
+				fechaFinInscripcion);
+		universidad.agregarCicloLectivo(cicloLectivo);
+		Curso cursoAregistrar = new Curso(idCurso, materia, aulaDeCurso, cicloLectivo, turnoString);
+		universidad.registrarCurso(cursoAregistrar);
 		Alumno nuevoAlumno = new Alumno(idAlumno, nombreAlumno, apellidoAlumno, DNIAlumno, edadAlumno, fechaDeNacAlumno,
 				fechaDeIngresoAlumno);
 		universidad.registrarAlumno(nuevoAlumno);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
 		Profesor profesor = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
 		universidad.registrarProfesor(profesor);
-		Materia materiaAsignada = new Materia(id, materia);
-		CursoProfesor cursoProfesor = new CursoProfesor(id, profesor, materiaAsignada);
-		resultadoObtenido = universidad.asignarDocentesAComision(id, cursoProfesor);
+		resultadoObtenido = universidad.asignarProfesorAlaComision(idCurso, DNI);
 
-		// test
+		// Test
 		assertTrue(resultadoObtenido);
 	}
 
 	@Test
 	public void testQueNoSePuedaAgregarProfesorRepetidoEnCurso() {
-		// preparacion
-		String nombreUniversidad = "UNLAM";
-		String nombre = "rodolfo", apellido = "perez", nombre2 = "victor", apellido2 = "heredia",
-				materia = "matematica", nombreAlumno = "juan", apellidoAlumno = "pepe";
-		Integer id = 1, DNI = 12345, edad = 20, id2 = 2, DNI2 = 12345, edad2 = 20, idAlumno = 1, DNIAlumno = 12345,
-				edadAlumno = 18;
-		Boolean resultadoProfesor1 = false, resultadoObtenido = false;
-		LocalDate fechaDeNac = LocalDate.of(1999, 11, 1);
-		LocalDate fechaDeIngreso = LocalDate.of(2020, 3, 1);
-		LocalDate fechaDeNac2 = LocalDate.of(2000, 4, 1);
-		LocalDate fechaDeIngreso2 = LocalDate.of(2021, 3, 1), fechaDeNacAlumno = LocalDate.of(1999, 11, 1),
-				fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1);
+		// Preparación
+		Materia materia = new Materia(1, "PB2");
+		Aula aulaDeCurso = new Aula(1, 50);
+		String nombreUniversidad = "UNLAM", nombre = "rodolfo", apellido = "perez", nombreAlumno = "juan",
+				apellidoAlumno = "pepe";
+		Integer id = 1, idCurso = 1, DNI = 12345, edad = 20, idAlumno = 1, DNIAlumno = 12345, edadAlumno = 18;
+		Boolean resultadoObtenido, profesorAsignado;
+		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
+				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
+				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
+				fechaInicioInscripcion = LocalDate.of(2023, 9, 23), fechaFinInscripcion = LocalDate.of(2023, 9, 23);
 
-		// ejecuacion
+		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
+		Turno turnoString = Turno.MAÑANA;
+		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion,
+				fechaFinInscripcion);
+		universidad.agregarCicloLectivo(cicloLectivo);
+		Curso cursoAregistrar = new Curso(idCurso, materia, aulaDeCurso, cicloLectivo, turnoString);
+		universidad.registrarCurso(cursoAregistrar);
 		Alumno nuevoAlumno = new Alumno(idAlumno, nombreAlumno, apellidoAlumno, DNIAlumno, edadAlumno, fechaDeNacAlumno,
 				fechaDeIngresoAlumno);
 		universidad.registrarAlumno(nuevoAlumno);
-		Profesor profesor1 = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
-		universidad.registrarProfesor(profesor1);
-		Profesor profesor2 = new Profesor(id2, nombre2, apellido2, DNI2, edad2, fechaDeNac2, fechaDeIngreso2);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		Profesor profesor = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
+		universidad.registrarProfesor(profesor);
+		Profesor profesor2 = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
 		universidad.registrarProfesor(profesor2);
-		Materia materiaAsignada = new Materia(id, materia);
-		CursoProfesor cursoProfesor = new CursoProfesor(id, profesor1, materiaAsignada);
-		CursoProfesor cursoProfesorRepetido = new CursoProfesor(id, profesor2, materiaAsignada);
-		resultadoProfesor1 = universidad.asignarDocentesAComision(id, cursoProfesor);
-		resultadoObtenido = universidad.asignarDocentesAComision(id, cursoProfesorRepetido);
+		profesorAsignado = universidad.asignarProfesorAlaComision(idCurso, DNI);
+		resultadoObtenido = universidad.asignarProfesorAlaComision(idCurso, DNI);
 
-		// test
-		assertNotEquals(resultadoProfesor1, resultadoObtenido);
+		// Test
+		assertNotEquals(profesorAsignado, resultadoObtenido);
 	}
 
 	@Test
 	public void testQueNoSePuedaAgregar2ProfesoresEnCursoConMenosDe20Alumnos() {
-		// preparacion
-		String nombreUniversidad = "UNLAM";
-		String nombre = "rodolfo", apellido = "perez", nombre2 = "victor", apellido2 = "heredia",
-				materia = "matematica", nombreAlumno = "juan", apellidoAlumno = "pepe", nombreAlumno2 = "martin",
-				apellidoAlumno2 = "ramirez";
-		Integer id = 1, DNI = 12345, edad = 20, id2 = 2, DNI2 = 678910, edad2 = 20, idAlumno = 1, DNIAlumno = 12345,
-				edadAlumno = 18, idAlumno2 = 2, DNIAlumno2 = 34734, edadAlumno2 = 19;
-		Boolean resultadoProfesor1 = false, resultadoObtenido = false;
-		LocalDate fechaDeNac = LocalDate.of(1999, 11, 1);
-		LocalDate fechaDeIngreso = LocalDate.of(2020, 3, 1);
-		LocalDate fechaDeNac2 = LocalDate.of(2000, 4, 1);
-		LocalDate fechaDeIngreso2 = LocalDate.of(2021, 3, 1), fechaDeNacAlumno = LocalDate.of(1999, 11, 1),
-				fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1), fechaDeNacAlumno2 = LocalDate.of(1999, 11, 1),
-				fechaDeIngresoAlumno2 = LocalDate.of(2021, 03, 1);
+		// Preparación
+		Materia materia = new Materia(1, "PB2");
+		Aula aulaDeCurso = new Aula(1, 50);
+		String nombreUniversidad = "UNLAM", nombre = "rodolfo", apellido = "perez", nombre2 = "martin",
+				apellido2 = "ramirez", nombreAlumno = "juan", apellidoAlumno = "pepe";
+		Integer id = 1, idCurso = 1, DNI = 12345, edad = 20, id2 = 1, idCurso2 = 1, DNI2 = 12345, edad2 = 20,
+				idAlumno = 1, DNIAlumno = 12345, edadAlumno = 18;
+		Boolean resultadoObtenido, profesorAsignado;
+		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
+				fechaDeNac2 = LocalDate.of(1999, 11, 01), fechaDeIngreso2 = LocalDate.of(2021, 03, 1),
+				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
+				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
+				fechaInicioInscripcion = LocalDate.of(2023, 9, 23), fechaFinInscripcion = LocalDate.of(2023, 9, 23);
 
-		// ejecuacion
+		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
+		Turno turnoString = Turno.MAÑANA;
+		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion,
+				fechaFinInscripcion);
+		universidad.agregarCicloLectivo(cicloLectivo);
+		Curso cursoAregistrar = new Curso(idCurso, materia, aulaDeCurso, cicloLectivo, turnoString);
+		universidad.registrarCurso(cursoAregistrar);
 		Alumno nuevoAlumno = new Alumno(idAlumno, nombreAlumno, apellidoAlumno, DNIAlumno, edadAlumno, fechaDeNacAlumno,
 				fechaDeIngresoAlumno);
 		universidad.registrarAlumno(nuevoAlumno);
-		Alumno nuevoAlumno2 = new Alumno(idAlumno2, nombreAlumno2, apellidoAlumno2, DNIAlumno2, edadAlumno2,
-				fechaDeNacAlumno2, fechaDeIngresoAlumno2);
-		universidad.registrarAlumno(nuevoAlumno2);
-		Profesor profesor1 = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
-		universidad.registrarProfesor(profesor1);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		Profesor profesor = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
+		universidad.registrarProfesor(profesor);
 		Profesor profesor2 = new Profesor(id2, nombre2, apellido2, DNI2, edad2, fechaDeNac2, fechaDeIngreso2);
 		universidad.registrarProfesor(profesor2);
-		Materia materiaAsignada = new Materia(id, materia);
-		CursoProfesor cursoProfesor = new CursoProfesor(id, profesor1, materiaAsignada);
-		CursoProfesor cursoProfesorRepetido = new CursoProfesor(id, profesor2, materiaAsignada);
-		resultadoProfesor1 = universidad.asignarDocentesAComision(id, cursoProfesor);
-		resultadoObtenido = universidad.asignarDocentesAComision(id, cursoProfesorRepetido);
+		profesorAsignado = universidad.asignarProfesorAlaComision(idCurso, DNI);
+		resultadoObtenido = universidad.asignarProfesorAlaComision(idCurso, DNI);
 
-		// test
-		assertTrue(resultadoObtenido);
+		// Test
+		assertNotEquals(profesorAsignado, resultadoObtenido);
 	}
 
+	@Test
+	public void testQueSePuedaAgregar2ProfesoresEnCursoConMasDe20Alumnos() {
+		// Preparación
+		Materia materia = new Materia(1, "PB2");
+		Aula aulaDeCurso = new Aula(1, 50);
+		String nombreUniversidad = "UNLAM", nombre = "rodolfo", apellido = "perez", nombre2 = "martin",
+				apellido2 = "ramirez", nombreAlumno = "juan", apellidoAlumno = "pepe";
+		Integer id = 1, idCurso = 1, DNI = 12345, edad = 20, id2 = 1, idCurso2 = 1, DNI2 = 12828, edad2 = 20,
+				idAlumno = 1, DNIAlumno = 12345, edadAlumno = 18;
+		Boolean resultadoObtenido, profesorAsignado;
+		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
+				fechaDeNac2 = LocalDate.of(1999, 11, 01), fechaDeIngreso2 = LocalDate.of(2021, 03, 1),
+				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
+				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
+				fechaInicioInscripcion = LocalDate.of(2023, 9, 23), fechaFinInscripcion = LocalDate.of(2023, 9, 23);
+
+		// Ejecución
+		Universidad universidad = new Universidad(nombreUniversidad);
+		Turno turnoString = Turno.MAÑANA;
+		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion,
+				fechaFinInscripcion);
+		universidad.agregarCicloLectivo(cicloLectivo);
+		Curso cursoAregistrar = new Curso(idCurso, materia, aulaDeCurso, cicloLectivo, turnoString);
+		universidad.registrarCurso(cursoAregistrar);
+		Alumno nuevoAlumno = new Alumno(idAlumno, nombreAlumno, apellidoAlumno, DNIAlumno, edadAlumno, fechaDeNacAlumno,
+				fechaDeIngresoAlumno);
+		universidad.registrarAlumno(nuevoAlumno);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		universidad.incribirAlumnoACurso(DNIAlumno, idCurso);
+		Profesor profesor = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
+		universidad.registrarProfesor(profesor);
+		Profesor profesor2 = new Profesor(id2, nombre2, apellido2, DNI2, edad2, fechaDeNac2, fechaDeIngreso2);
+		universidad.registrarProfesor(profesor2);
+		profesorAsignado = universidad.asignarProfesorAlaComision(idCurso, DNI);
+		resultadoObtenido = universidad.asignarProfesorAlaComision(idCurso, DNI2);
+		
+		// Test
+		assertEquals(profesorAsignado, resultadoObtenido);
+	}
 }

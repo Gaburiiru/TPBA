@@ -4,7 +4,7 @@ public class Curso {
 	private Aula aula;
 	private CicloLectivo cicloLectivo;
 	private Turno turno;
-	private Integer cantidadDeAlumnosInscriptos;
+	public Integer cantidadDeAlumnosInscriptos;
 	
 	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno) {
 		super();
@@ -51,8 +51,7 @@ public class Curso {
 	public Integer cantidadDeAlumnosInscriptos() {
 		return this.cantidadDeAlumnosInscriptos;
 	}
-	
-	public void aumentarCantidadDeAlumnosInscriptos() {
-		this.cantidadDeAlumnosInscriptos++;
+	public void aumentarCantidadDeAlumnosInscriptos() {	
+		this.cantidadDeAlumnosInscriptos+=1;
 	}
 }
