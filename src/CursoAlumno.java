@@ -9,8 +9,9 @@ public class CursoAlumno {
 	private List<Nota> listaDeNotas;///que reciba solo 3 notas , 1erParcial, 2doPArcial o algun recuperatorio  
 	private Curso cursoDelAlumno;
 	
-	public CursoAlumno(Alumno alumno, Curso cursoDelAlumno) {
+	public CursoAlumno(Integer id,Alumno alumno, Curso cursoDelAlumno) {
 		super();
+		this.id = id;
 		this.alumno = alumno;
 		this.listaDeNotas = new LinkedList<>();
 		this.cursoDelAlumno = cursoDelAlumno; 

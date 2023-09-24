@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Universidad {
 	private List<Alumno> listaDeAlumno;
@@ -280,7 +281,9 @@ public class Universidad {
 		if(!verificarQueNoHayaAprobadoLaMateriaAnteriormente(cursoAInscribir,dniAlumno))
 			return false;
 		
-		CursoAlumno cursoAlumno = new CursoAlumno(buscarAlumno(dniAlumno), cursoAInscribir);
+		CursoAlumno cursoAlumno = new CursoAlumno(generarIdAleatorio(),buscarAlumno(dniAlumno), cursoAInscribir);
+		listaDeCursoAlumnos.add(cursoAlumno);
+		cursoAInscribir.aumentarCantidadDeAlumnosInscriptos();
 		
 		return true;
 	}
@@ -330,7 +333,7 @@ public class Universidad {
 	}
 
 	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula,Integer cantidadAlumnosInscriptos) {
-		if(aula.getCantDeAlumnosPermitidos() < cantidadAlumnosInscriptos)
+		if(aula.getCantDeAlumnosPermitidos() > cantidadAlumnosInscriptos)
 			return true;
 		
 		return false;
@@ -388,14 +391,26 @@ public class Universidad {
 	//// lista de materias es el plan de estudios 
 	public List<Materia> obtenerMateriasQueFaltanCursarDeUnAlumno(Integer dniAlumno) {
 		
+		if(!existeAlumno(dniAlumno))
+			return null;
+		
 		List<Materia> materiasAprobadasDelAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
 		List<Materia> materiasQueFaltanCursarDeUnAlumno = listaDeMaterias;
 		
-		if(materiasQueFaltanCursarDeUnAlumno.removeAll(materiasAprobadasDelAlumno))
-			return materiasQueFaltanCursarDeUnAlumno;
+		materiasQueFaltanCursarDeUnAlumno.removeAll(materiasAprobadasDelAlumno);
 		
-		return null;
+		
+		return materiasAprobadasDelAlumno;
 	}
+	public static int generarIdAleatorio() {
+        // Crear una instancia de Random
+        Random rand = new Random();
+
+        // Generar un número aleatorio en el rango de 1 a 100000 (incluyendo 1 y 100)
+        int idAleatorio = rand.nextInt(100000) + 1;
+
+        return idAleatorio;
+    }
 	
 }
 
