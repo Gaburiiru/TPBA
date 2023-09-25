@@ -33,6 +33,12 @@ public class Nota {
 	public void setValorNota(Integer valorNota) {
 		this.valorNota = valorNota;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Nota [id=" + id + ", valorNota=" + valorNota + ", tipoDeNota=" + tipoDeNota + "]";
+	}
 	
 	
 }

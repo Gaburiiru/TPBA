@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Universidad {
-	public List<Alumno> listaDeAlumno;
+	private List<Alumno> listaDeAlumno;
 	private List<Profesor> listaDeProfesor;
+	private List<Nota> listaDeNota;
 	private List<Curso> listaDeCurso;
 	private List<CursoAlumno> listaDeCursoAlumnos;
 	private List<CursoProfesor> listaDeCursoProfesor;
@@ -27,6 +28,7 @@ public class Universidad {
 
 		this.listaDeAlumno = new ArrayList<>();
 		this.listaDeProfesor = new ArrayList<>();
+		this.listaDeNota = new ArrayList<>();
 		this.listaDeCurso = new ArrayList<>();
 		this.listaDeCursoAlumnos = new ArrayList<>();
 		this.listaDeCursoProfesor = new ArrayList<>();
@@ -47,6 +49,24 @@ public class Universidad {
 		// el alumno no existe y lo agregamos a la lista
 		listaDeAlumno.add(alumnoNuevo);
 		return true;
+	}
+
+	public Alumno buscarAlumno(Integer dniAlumno) {
+		Alumno alumnoEncontrado = null;
+		for (Alumno alumnoExistente : listaDeAlumno) {
+			if (alumnoExistente.getId() == dniAlumno) {
+				alumnoEncontrado = alumnoExistente;
+			}
+		}
+		return alumnoEncontrado;
+	}
+
+	private boolean existeAlumno(Integer dniAlumno) {
+		for (Alumno alumno : listaDeAlumno) {
+			if (alumno.getDNI() == dniAlumno)
+				return true;
+		}
+		return false;
 	}
 
 	public Boolean registrarProfesor(Profesor profesorNuevo) {
@@ -343,7 +363,7 @@ public class Universidad {
 	}
 
 	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula) {
-		
+
 		return true;
 	}
 
@@ -388,12 +408,50 @@ public class Universidad {
 
 	}
 
-	private boolean existeAlumno(Integer dniAlumno) {
-		for (Alumno alumno : listaDeAlumno) {
-			if (alumno.getDNI() == dniAlumno)
-				return true;
+	public Integer validarValorNota(Nota nota) {
+		if (nota.getValorNota() >= 1 && nota.getValorNota() <= 10) {
+			return nota.getValorNota();
+		}
+		return null;
+	}
+
+	public TipoDeNota validarTipoNota(Nota nota) {
+		// Tipo de nota repetido, no se agrega
+		if(listaDeNota.isEmpty()) {
+			return nota.getTipoDeNota();
+		}else {
+			for (Nota notaExistente : listaDeNota) {
+				if (notaExistente.getTipoDeNota().equals(nota.getTipoDeNota())) {
+					return null;
+				} else {
+					if (listaDeNota.size() < 3) {
+						return nota.getTipoDeNota();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Boolean registrarNota(Integer idComision, Integer idAlumno, Nota nota) {
+		Curso curso = buscarCurso(idComision);
+		Alumno alumno = buscarAlumno(idAlumno);
+		Integer valorNota = validarValorNota(nota);
+		TipoDeNota valorTipoNota = validarTipoNota(nota);
+		if (curso != null && alumno != null && valorNota != null && valorTipoNota != null) {
+			boolean aproboCorrelativas = verificarQueLasCorrelativasEstenAprobadas(curso.getId(), alumno.getDNI());
+			if (aproboCorrelativas) {
+				nota.setValorNota(valorNota);
+			} else {
+				if (valorNota >= 7) {
+					nota.setValorNota(7);
+				}
+				nota.setValorNota(valorNota);
+			}
+			listaDeNota.add(nota);
+
+			return true;
 		}
 		return false;
 	}
-
 }

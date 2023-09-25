@@ -127,7 +127,7 @@ public class TestCursoProfesor {
 				fechaDeNac2 = LocalDate.of(1999, 11, 01), fechaDeIngreso2 = LocalDate.of(2021, 03, 1),
 				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
 				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
-				fechaInicioInscripcion = LocalDate.of(2023, 9, 23), fechaFinInscripcion = LocalDate.of(2023, 9, 23);
+				fechaInicioInscripcion = LocalDate.of(2023, 9, 24), fechaFinInscripcion = LocalDate.of(2023, 9, 24);
 
 		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
