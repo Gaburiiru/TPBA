@@ -51,7 +51,7 @@ public class TestNota {
 		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
 				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
 				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
-				fechaInicioInscripcion = LocalDate.of(2023, 9, 24), fechaFinInscripcion = LocalDate.of(2023, 9, 24);
+				fechaInicioInscripcion = LocalDate.now(), fechaFinInscripcion = LocalDate.now();
 
 		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
@@ -90,7 +90,7 @@ public class TestNota {
 		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
 				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
 				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
-				fechaInicioInscripcion = LocalDate.of(2023, 9, 24), fechaFinInscripcion = LocalDate.of(2023, 9, 24);
+				fechaInicioInscripcion = LocalDate.now(), fechaFinInscripcion = LocalDate.now();
 
 		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
@@ -129,7 +129,7 @@ public class TestNota {
 		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
 				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
 				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
-				fechaInicioInscripcion = LocalDate.of(2023, 9, 24), fechaFinInscripcion = LocalDate.of(2023, 9, 24);
+				fechaInicioInscripcion = LocalDate.now(), fechaFinInscripcion = LocalDate.now();
 
 		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
@@ -173,7 +173,7 @@ public class TestNota {
 		LocalDate fechaDeNac = LocalDate.of(1999, 11, 01), fechaDeIngreso = LocalDate.of(2021, 03, 1),
 				fechaDeNacAlumno = LocalDate.of(1999, 11, 01), fechaDeIngresoAlumno = LocalDate.of(2021, 03, 1),
 				fechaInicioCurso = LocalDate.of(2023, 03, 27), fechaFinCurso = LocalDate.of(2023, 07, 14),
-				fechaInicioInscripcion = LocalDate.of(2023, 9, 24), fechaFinInscripcion = LocalDate.of(2023, 9, 24);
+				fechaInicioInscripcion = LocalDate.now(), fechaFinInscripcion = LocalDate.now();
 
 		// Ejecución
 		Universidad universidad = new Universidad(nombreUniversidad);
