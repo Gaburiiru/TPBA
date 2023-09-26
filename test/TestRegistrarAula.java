@@ -13,19 +13,10 @@ public class TestRegistrarAula {
 		Integer idAulaARegistrarI = 20;
 		Aula aulaARegistar = new Aula(idAulaARegistrarI, 50);
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		
-		LocalDate fechaInicioCurso = LocalDate.parse("2023-03-27", formatter);
-		LocalDate fechaFinCurso = LocalDate.parse("2023-07-14", formatter);
-		LocalDate fechaInicioInscripcion = LocalDate.parse("2023-03-01",formatter);
-		LocalDate fechaFinInscripcion = LocalDate.parse("2023-03-20",formatter);
-		
 		Universidad unlam = new Universidad("unlam");
 		
-		CicloLectivo cicloLectivo = new CicloLectivo(1, fechaInicioCurso, fechaFinCurso, fechaInicioInscripcion, fechaFinInscripcion);
-		unlam.agregarCicloLectivo(cicloLectivo);
 		Integer idCurso = 1;
-		Curso curso = new Curso(idCurso, null, null, cicloLectivo, null,null);
+		Curso curso = new Curso(idCurso, null, null, null, null,null);
 		
 		
 		unlam.registrarCurso(curso);
@@ -38,7 +29,47 @@ public class TestRegistrarAula {
 		
 		//
 		assertEquals(idAulaARegistrarI, idDelAulaDelCurso);
-		
-	
 	}
+	
+	@Test
+	public void queNoSePuedaAsignarUnAulaQueNoEstaRegistradoAUnCurso() {
+		
+		Integer idAulaARegistrarI = 20;
+		Aula aulaARegistar = new Aula(idAulaARegistrarI, 50);
+		
+		Universidad unlam = new Universidad("unlam");
+		
+		Integer idCurso = 1;
+		Curso curso = new Curso(idCurso, null, null, null, null,null);
+		
+		unlam.registrarCurso(curso);
+		///no registramos el aula a asignar 
+		///unlam.registrarAula(aulaARegistar);
+		
+		Boolean obtenido = unlam.asignarAulaALaComision(idCurso, idAulaARegistrarI);
+		
+		
+		assertFalse(obtenido);
+	}
+	@Test
+	public void queNoSePuedaAsignarUnAulaAUnCursoQueNoEstaRegistrado() {
+		
+		Integer idAulaARegistrarI = 20;
+		Aula aulaARegistar = new Aula(idAulaARegistrarI, 50);
+		Integer idCurso = 1;
+		
+		Curso curso = new Curso(idCurso, null, null, null, null,null);
+		
+		
+		Universidad unlam = new Universidad("unlam");
+		///en este caso no registramos el curso
+		///unlam.registrarCurso(curso);
+		unlam .registrarAula(aulaARegistar);
+		
+		Boolean obtenido = unlam.asignarAulaALaComision(idCurso, idAulaARegistrarI);
+		
+		
+		assertFalse(obtenido);
+	}
+	
 }

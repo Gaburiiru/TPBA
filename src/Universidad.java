@@ -208,7 +208,7 @@ public class Universidad {
 		
 		List<CursoAlumno> cursosDelAlumnos = new ArrayList<>();
 		
-		for (CursoAlumno cursoAlumno : cursosDelAlumnos) {
+		for (CursoAlumno cursoAlumno : listaDeCursoAlumnos) {
 			if(cursoAlumno.getAlumno().getDNI() == dniAlumno) {
 				cursosDelAlumnos.add(cursoAlumno);
 			}

@@ -162,7 +162,7 @@ public class TestIncribirAlumnoACurso {
 		LocalDate fechaInicioCurso = LocalDate.parse("2023-03-27", formatter);
 		LocalDate fechaFinCurso = LocalDate.parse("2023-07-14", formatter);
 		
-		
+		////toma la fecha de hoy , pero no esta en la fecha de inscripcion
 		LocalDate fechaInicioInscripcion = LocalDate.parse("2023-03-01",formatter);
 		LocalDate fechaFinInscripcion = LocalDate.parse("2023-03-20",formatter);
 		
