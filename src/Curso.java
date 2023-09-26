@@ -50,10 +50,12 @@ public class Curso {
 	public void setCicloLectivo(CicloLectivo cicloLectivo) {
 		this.cicloLectivo = cicloLectivo;
 	}
-	public Integer cantidadDeAlumnosInscriptos() {
+	public Integer getCantidadDeAlumnosInscriptos() {
 		return this.cantidadDeAlumnosInscriptos;
 	}
-	
+	public void setCantidadDeAlumnos(Integer cantDeAlumnos) {
+		this.cantidadDeAlumnosInscriptos = cantDeAlumnos;
+	}
 	public void aumentarCantidadDeAlumnosInscriptos() {
 		this.cantidadDeAlumnosInscriptos++;
 	}
@@ -65,5 +67,7 @@ public class Curso {
 	public void setDiaDeCursada(DiaDeLaSemana diaDeCursada) {
 		this.diaDeCursada = diaDeCursada;
 	}
+
+
 	
 }

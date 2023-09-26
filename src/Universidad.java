@@ -272,7 +272,7 @@ public class Universidad {
 		if(!verificarQueNoEsteFueraDeLaFechaDeInscripcion(cursoAInscribir.getCicloLectivo()))
 			return false;
 		//No se puede inscribir el alumno si excede la cantidad de alumnos permitidos en el aula
-		if(!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula(),cursoAInscribir.cantidadDeAlumnosInscriptos()))
+		if(!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula(),cursoAInscribir.getCantidadDeAlumnosInscriptos()))
 			return false;
 		//No se puede inscribir el Alumno si ya está inscripto a otra comisión el mismo día y Turno
 		if(!verificarQueElAlumnoNoEsteIscriptoAOtroCursoElMismoDiaYTurno(cursoAInscribir,dniAlumno))
