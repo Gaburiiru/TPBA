@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Curso {
 	private Integer id;
 	private Materia materia;
 	private Aula aula;
 	private CicloLectivo cicloLectivo;
 	private Turno turno;
-	public Integer cantidadDeAlumnosInscriptos;
+	private Integer cantidadDeAlumnosInscriptos;
 	
 	public Curso(Integer id, Materia materia, Aula aula, CicloLectivo cicloLectivo,Turno turno) {
 		super();

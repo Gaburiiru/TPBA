@@ -1,40 +1,41 @@
+import java.nio.file.DirectoryStream.Filter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class Universidad {
-	private List<Alumno> listaDeAlumno;
+	private static List<Alumno> listaDeAlumno;
 	private List<Profesor> listaDeProfesor;
-	private List<Nota> listaDeNota;
-	private List<Curso> listaDeCurso;
+	private static List<Curso> listaDeCurso;
 	private List<CursoAlumno> listaDeCursoAlumnos;
 	private List<CursoProfesor> listaDeCursoProfesor;
-	private List<Materia> listaDeMaterias;
+	private static List<Materia> listaDeMaterias;
 	private List<Aula> listaDeAulas;
 	private List<CicloLectivo> listaDeCiclosLectivos;
 	private String nombreDeUniversidad;
-
-	public List<Alumno> getListaDeAlumno() {
-		return listaDeAlumno;
-	}
-
-	public void setListaDeAlumno(List<Alumno> listaDeAlumno) {
-		this.listaDeAlumno = listaDeAlumno;
-	}
 
 	public Universidad(String nombreDeUniversidad) {
 		super();
 
 		this.listaDeAlumno = new ArrayList<>();
 		this.listaDeProfesor = new ArrayList<>();
-		this.listaDeNota = new ArrayList<>();
 		this.listaDeCurso = new ArrayList<>();
 		this.listaDeCursoAlumnos = new ArrayList<>();
 		this.listaDeCursoProfesor = new ArrayList<>();
 		this.listaDeMaterias = new ArrayList<>();
 		this.listaDeAulas = new ArrayList<>();
 		this.listaDeCiclosLectivos = new ArrayList<>();
+		this.nombreDeUniversidad = nombreDeUniversidad;
+	}
+
+	public String getNombreDeUniversidad() {
+		return nombreDeUniversidad;
+	}
+
+	public void setNombreDeUniversidad(String nombreDeUniversidad) {
 		this.nombreDeUniversidad = nombreDeUniversidad;
 	}
 
@@ -51,19 +52,19 @@ public class Universidad {
 		return true;
 	}
 
-	public Alumno buscarAlumno(Integer dniAlumno) {
+	public static Alumno buscarAlumno(Integer idAlumno) {
 		Alumno alumnoEncontrado = null;
 		for (Alumno alumnoExistente : listaDeAlumno) {
-			if (alumnoExistente.getId() == dniAlumno) {
+			if (alumnoExistente.getId().equals(idAlumno)) {
 				alumnoEncontrado = alumnoExistente;
 			}
 		}
 		return alumnoEncontrado;
 	}
 
-	private boolean existeAlumno(Integer dniAlumno) {
+	private static boolean existeAlumno(Integer dniAlumno) {
 		for (Alumno alumno : listaDeAlumno) {
-			if (alumno.getDNI() == dniAlumno)
+			if (alumno.getDNI().equals(dniAlumno))
 				return true;
 		}
 		return false;
@@ -128,18 +129,18 @@ public class Universidad {
 	/// metodos de materia
 	public Boolean registrarMateria(Materia materiaARegistrar) {
 		/// si la materia a registrar es nulo no la podemos registrar
-		if (materiaARegistrar == null)
+		if (materiaARegistrar == null) {
 			return false;
+		}
 		/// si ya existe la materia entonces no podemos registrar materia
-		if (existeMateria(materiaARegistrar.getId()))
+		if (existeMateria(materiaARegistrar.getId())) {
 			return false;
-
+		}
 		listaDeMaterias.add(materiaARegistrar);
 		return true;
 	}
 
-	private Materia buscarMateria(Integer idMateria) {
-
+	public static Materia buscarMateria(Integer idMateria) {
 		Materia materiaEncontrada = null;
 
 		for (Materia materiaExistente : listaDeMaterias) {
@@ -150,7 +151,7 @@ public class Universidad {
 		return materiaEncontrada;
 	}
 
-	private Boolean existeMateria(Integer idMateriaAComparar) {
+	private static Boolean existeMateria(Integer idMateriaAComparar) {
 		for (Materia materiaExistente : listaDeMaterias) {
 			if (materiaExistente.getId() == idMateriaAComparar) {
 				return true;
@@ -203,7 +204,7 @@ public class Universidad {
 		return false;
 	}
 
-	public Curso buscarCurso(Integer idCursoABuscar) {
+	public static Curso buscarCurso(Integer idCursoABuscar) {
 		Curso cursoEncontrado = null;
 		for (Curso cursoExistente : listaDeCurso) {
 			if (cursoExistente.getId() == idCursoABuscar) {
@@ -262,7 +263,7 @@ public class Universidad {
 
 	/// metodo para obtener las materias que tiene aprobadas
 
-	public List<Materia> obtenerMateriasAprobadasDeUnAlumno(Integer dniAlumno) {
+	public static List<Materia> obtenerMateriasAprobadasDeUnAlumno(Integer dniAlumno) {
 		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
 		/// traer los cursos que cursa el alumno
 		/// verificar que las notas de esos cursos sean mayor o igual a 7
@@ -270,14 +271,14 @@ public class Universidad {
 
 		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
 			if (cursoAlumno.estaAprobado()) {
-				listaDeMateriasAprobadas.add(cursoAlumno.getMateria());
+				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
 			}
 		}
 
 		return listaDeMateriasAprobadas;
 	}
 
-	private List<CursoAlumno> buscarCursosDelAlumno(Integer dniAlumno) {
+	private static List<CursoAlumno> buscarCursosDelAlumno(Integer dniAlumno) {
 		// TODO Auto-generated method stub
 
 		List<CursoAlumno> cursosDelAlumnos = new ArrayList<>();
@@ -358,6 +359,8 @@ public class Universidad {
 		// día y Turno
 		// No se puede inscribir a una materia que haya aprobado previamente
 
+		CursoAlumno cursoAlumno = new CursoAlumno(generarIdAleatorio(), buscarAlumno(dniAlumno), cursoAInscribir);
+		listaDeCursoAlumnos.add(cursoAlumno);
 		cursoAInscribir.aumentarCantidadDeAlumnosInscriptos();
 		return true;
 	}
@@ -376,7 +379,23 @@ public class Universidad {
 		return false;
 	}
 
-	public Boolean verificarQueLasCorrelativasEstenAprobadas(Integer idCurso, Integer dniAlumno) {
+	private static List<Materia> obtenerMateriasCursadasPorUnAlumno(Integer dniAlumno) {
+		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
+		/// traer los cursos que cursa el alumno
+		/// verificar que las notas de esos cursos sean mayor o igual a 4
+		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
+
+		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
+			if (cursoAlumno.estaCursado() || cursoAlumno.estaAprobado()) {
+				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
+			}
+		}
+
+		return listaDeMateriasAprobadas;
+
+	}
+
+	public static Boolean verificarQueLasCorrelativasEstenAprobadas(Integer idCurso, Integer dniAlumno) {
 
 		List<Materia> materiaCorrelativas = new ArrayList<>();
 		List<Materia> materiasCursadas = obtenerMateriasCursadasPorUnAlumno(dniAlumno);
@@ -392,66 +411,48 @@ public class Universidad {
 		return materiasCursadas.containsAll(materiaCorrelativas);
 	}
 
-	private List<Materia> obtenerMateriasCursadasPorUnAlumno(Integer dniAlumno) {
-		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
-		/// traer los cursos que cursa el alumno
-		/// verificar que las notas de esos cursos sean mayor o igual a 4
-		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
+	public static List<Materia> obtenerMateriasQueFaltanCursarDeUnAlumno(Integer dniAlumno) {
 
-		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
-			if (cursoAlumno.estaCursado() || cursoAlumno.estaAprobado()) {
-				listaDeMateriasAprobadas.add(cursoAlumno.getMateria());
-			}
-		}
+		if (!existeAlumno(dniAlumno))
+			return null;
 
-		return listaDeMateriasAprobadas;
+		List<Materia> materiasAprobadasDelAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
+		List<Materia> materiasQueFaltanCursarDeUnAlumno = listaDeMaterias;
 
+		materiasQueFaltanCursarDeUnAlumno.removeAll(materiasAprobadasDelAlumno);
+
+		return materiasAprobadasDelAlumno;
 	}
 
-	public Integer validarValorNota(Nota nota) {
-		if (nota.getValorNota() >= 1 && nota.getValorNota() <= 10) {
-			return nota.getValorNota();
-		}
-		return null;
-	}
+	// en esta funcion hay que calcular el promedio final en base a todos los cursos
+	public Boolean obtenerPromedio(Integer idAlumno) {
+		Alumno alumno = buscarAlumno(idAlumno);
+		if (alumno != null) {
+			if (!listaDeCursoAlumnos.isEmpty()) {
+				double nota = 0.0;
+				Double notaFinal;
+				for (CursoAlumno curso : listaDeCursoAlumnos) {
 
-	public TipoDeNota validarTipoNota(Nota nota) {
-		// Tipo de nota repetido, no se agrega
-		if(listaDeNota.isEmpty()) {
-			return nota.getTipoDeNota();
-		}else {
-			for (Nota notaExistente : listaDeNota) {
-				if (notaExistente.getTipoDeNota().equals(nota.getTipoDeNota())) {
-					return null;
-				} else {
-					if (listaDeNota.size() < 3) {
-						return nota.getTipoDeNota();
+					notaFinal = curso.calcularNotaFinal();
+					if (notaFinal != null) {
+						nota += notaFinal;
 					}
 				}
-			}
-		}
-		return null;
-	}
+				// Calcular el promedio como el promedio de todas las notas
+				Double promedio = nota / listaDeCursoAlumnos.size();
+				System.out.println("el promedio final es: " + promedio);
+				return true;
 
-	public Boolean registrarNota(Integer idComision, Integer idAlumno, Nota nota) {
-		Curso curso = buscarCurso(idComision);
-		Alumno alumno = buscarAlumno(idAlumno);
-		Integer valorNota = validarValorNota(nota);
-		TipoDeNota valorTipoNota = validarTipoNota(nota);
-		if (curso != null && alumno != null && valorNota != null && valorTipoNota != null) {
-			boolean aproboCorrelativas = verificarQueLasCorrelativasEstenAprobadas(curso.getId(), alumno.getDNI());
-			if (aproboCorrelativas) {
-				nota.setValorNota(valorNota);
-			} else {
-				if (valorNota >= 7) {
-					nota.setValorNota(7);
-				}
-				nota.setValorNota(valorNota);
 			}
-			listaDeNota.add(nota);
-
-			return true;
 		}
 		return false;
+	}
+
+	public static int generarIdAleatorio() {
+		// Crear una instancia de Random
+		Random rand = new Random();
+		// Generar un número aleatorio en el rango de 1 a 100000 (incluyendo 1 y 100)
+		int idAleatorio = rand.nextInt(100000) + 1;
+		return idAleatorio;
 	}
 }
