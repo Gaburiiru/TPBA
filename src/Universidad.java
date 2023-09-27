@@ -2,9 +2,12 @@ import java.nio.file.DirectoryStream.Filter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class Universidad {
 	private static List<Alumno> listaDeAlumno;
@@ -16,6 +19,7 @@ public class Universidad {
 	private List<Aula> listaDeAulas;
 	private List<CicloLectivo> listaDeCiclosLectivos;
 	private String nombreDeUniversidad;
+	private Map<Integer, Set<Integer>> asignacionesDeProfesores;
 
 	public Universidad(String nombreDeUniversidad) {
 		super();
@@ -29,6 +33,7 @@ public class Universidad {
 		this.listaDeAulas = new ArrayList<>();
 		this.listaDeCiclosLectivos = new ArrayList<>();
 		this.nombreDeUniversidad = nombreDeUniversidad;
+		asignacionesDeProfesores = new HashMap<>();
 	}
 
 	public String getNombreDeUniversidad() {
@@ -98,28 +103,35 @@ public class Universidad {
 
 		if (curso != null && profesor != null) {
 			// Verificar si el profesor ya está asignado a este curso
-			for (CursoProfesor cursoProfesorExistente : listaDeCursoProfesor) {
-				if (cursoProfesorExistente.getProfesor().getDNI().equals(dniProfesor)
-						&& cursoProfesorExistente.getCurso().equals(curso)) {
-					return false; // El profesor ya está asignado a este curso
-				}
+			if (yaEstaAsignado(idCurso, dniProfesor)) {
+				return false; // El profesor ya está asignado a este curso
 			}
-			Integer cantidadAlumnos = curso.cantidadDeAlumnosInscriptos();
+
+			Integer cantidadAlumnos = curso.getCantidadDeAlumnosInscriptos();
 			Integer profesoresNecesarios = (cantidadAlumnos / 20 + 1);
 
 			if (cursoProfesores(curso) < profesoresNecesarios) {
-				CursoProfesor profesorAgregado = new CursoProfesor(idCurso, profesor, curso);
-				listaDeCursoProfesor.add(profesorAgregado);
+				// Agregar al profesor al conjunto de profesores asignados al curso
+				asignarProfesor(idCurso, dniProfesor);
 				return true;
 			}
 		}
 		return false;
 	}
 
+	private void asignarProfesor(Integer idCurso, Integer dniProfesor) {
+		asignacionesDeProfesores.computeIfAbsent(idCurso, k -> new HashSet<>()).add(dniProfesor);
+	}
+
+	private boolean yaEstaAsignado(Integer idCurso, Integer dniProfesor) {
+		Set<Integer> profesoresAsignados = asignacionesDeProfesores.get(idCurso);
+		return profesoresAsignados != null && profesoresAsignados.contains(dniProfesor);
+	}
+
 	private int cursoProfesores(Curso curso) {
 		int contador = 0;
 		for (CursoProfesor cursoProfesor : listaDeCursoProfesor) {
-			if (cursoProfesor.getCurso().equals(curso)) {
+			if (cursoProfesor.getCursoAsignado().equals(curso)) {
 				contador++;
 			}
 		}
@@ -161,21 +173,28 @@ public class Universidad {
 	}
 
 	/// metodos para curso
-	public Boolean registrarCurso(Curso cursoARegistrar) {
-		/// si el curso a registrar es null retorna falso
-		if (cursoARegistrar == null)
+	public boolean registrarCurso(Curso cursoARegistrar) {
+		// Verificar si el curso a registrar es nulo
+		if (cursoARegistrar == null) {
 			return false;
-		/// si ya existe el curso no se puede registrar
-		if (existeCurso(cursoARegistrar.getId()))
-			return false;
-		/// si no existe el ciclo lectivo en la lista de ciclo lectivos entonces no
-		/// podemos registrar el curso
-		if (!existeCicloLectivo(cursoARegistrar.getCicloLectivo()))
-			return false;
+		}
 
-		if (!verificarCurso(cursoARegistrar))
+		// Verificar si ya existe un curso con el mismo ID
+		if (existeCurso(cursoARegistrar.getId())) {
 			return false;
+		}
 
+		// Verificar si el ciclo lectivo del curso existe en la universidad
+		if (!existeCicloLectivo(cursoARegistrar.getCicloLectivo())) {
+			return false;
+		}
+
+		// Realizar cualquier verificación adicional del curso
+		if (!verificarCurso(cursoARegistrar)) {
+			return false;
+		}
+
+		// Si todas las verificaciones pasan, registrar el curso
 		listaDeCurso.add(cursoARegistrar);
 		return true;
 	}
@@ -188,11 +207,9 @@ public class Universidad {
 				if (cursoExistente.getCicloLectivo().compararCicloLectivo(cursoARegistrar.getCicloLectivo())) {
 					if (cursoExistente.getTurno().equals(cursoARegistrar.getTurno()))
 						return false;
-
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -262,7 +279,6 @@ public class Universidad {
 	}
 
 	/// metodo para obtener las materias que tiene aprobadas
-
 	public static List<Materia> obtenerMateriasAprobadasDeUnAlumno(Integer dniAlumno) {
 		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
 		/// traer los cursos que cursa el alumno
@@ -274,7 +290,6 @@ public class Universidad {
 				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
 			}
 		}
-
 		return listaDeMateriasAprobadas;
 	}
 
@@ -330,106 +345,152 @@ public class Universidad {
 		return true;
 	}
 
-	public Boolean incribirAlumnoACurso(Integer dniAlumno, Integer idCurso) {
+	public Boolean inscribirAlumnoACurso(Integer dniAlumno, Integer idCurso) {
 		// Verificar que el alumno y la comisión estén dados de alta
 		if (!existeCurso(idCurso) || !existeAlumno(dniAlumno)) {
-			System.out.println("soy el caso 1");
 			return false;
 		}
 		// No se puede inscribir Alumnos si este no tiene aprobadas todas las
 		// correlativas. Se aprueba con 4 o más.
 		if (!verificarQueLasCorrelativasEstenAprobadas(idCurso, dniAlumno)) {
-			System.out.println("soy el caso 2");
 			return false;
 		}
 		Curso cursoAInscribir = buscarCurso(idCurso);
-
 		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
 		if (!verificarQueNoEsteFueraDeLaFechaDeInscripcion(cursoAInscribir.getCicloLectivo())) {
-			System.out.println("soy el caso 3");
 			return false;
 		}
 		// No se puede inscribir el alumno si excede la cantidad de alumnos permitidos
 		// en el aula
-		if (!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula())) {
-			System.out.println("soy el caso 4");
+		if (!verificarQueHayaLugarEnElAulaParaInscribirAlumno(cursoAInscribir.getAula(),
+				cursoAInscribir.getCantidadDeAlumnosInscriptos())) {
 			return false;
 		}
 		// No se puede inscribir el Alumno si ya está inscripto a otra comisión el mismo
 		// día y Turno
+		if (!verificarQueElAlumnoNoEsteIscriptoAOtroCursoElMismoDiaYTurno(cursoAInscribir, dniAlumno)) {
+			return false;
+		}
 		// No se puede inscribir a una materia que haya aprobado previamente
-
+		if (!verificarQueNoHayaAprobadoLaMateriaAnteriormente(cursoAInscribir, dniAlumno)) {
+			return false;
+		}
+		// Verificar si el alumno ya está inscrito en el curso
+		for (CursoAlumno cursoExistente : listaDeCursoAlumnos) {
+			if (cursoExistente.getCursoDelAlumno().getId().equals(idCurso)) {
+				System.out.println("Curso repetido");
+				return false;
+			}
+		}
+		// Si ha pasado todas las verificaciones, inscribir al alumno
 		CursoAlumno cursoAlumno = new CursoAlumno(generarIdAleatorio(), buscarAlumno(dniAlumno), cursoAInscribir);
 		listaDeCursoAlumnos.add(cursoAlumno);
 		cursoAInscribir.aumentarCantidadDeAlumnosInscriptos();
+		System.out.println("Inscripto");
 		return true;
 	}
 
-	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula) {
-
+	private boolean verificarQueNoHayaAprobadoLaMateriaAnteriormente(Curso cursoAInscribir,Integer dniAlumno) {
+		// TODO Auto-generated method stub
+		List<Materia> materiasAprobadPorElAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
+		
+		for(Materia materiasAprobada: materiasAprobadPorElAlumno) {
+			if(cursoAInscribir.getMateria().equals(materiasAprobada))
+				return false;
+		}
 		return true;
+	}
+
+	private boolean verificarQueElAlumnoNoEsteIscriptoAOtroCursoElMismoDiaYTurno(Curso cursoAInscribir,Integer dniAlumno) {
+		///buscamos los cursos que estan inscriptos el alumno
+		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
+		
+		for(CursoAlumno cursosDeAlumno: cursosDelAlumno) {
+			if(verificarSiSonDelMismoCicloLectivoDiaYTurno(cursosDeAlumno.getCursoDelAlumno(),cursoAInscribir))
+				return false;
+		}
+		
+		return true;
+	}
+
+	private boolean verificarSiSonDelMismoCicloLectivoDiaYTurno(Curso cursosDelAlumno, Curso cursoAInscribir) {
+		
+		if(cursosDelAlumno.getCicloLectivo().compararCicloLectivo(cursoAInscribir.getCicloLectivo()))
+			if(cursosDelAlumno.getDiaDeCursada().equals(cursoAInscribir.getDiaDeCursada()))
+				if(cursosDelAlumno.getTurno().equals(cursoAInscribir.getTurno()))
+					return true;
+		return false;
+	}
+
+	private boolean verificarQueHayaLugarEnElAulaParaInscribirAlumno(Aula aula,Integer cantidadAlumnosInscriptos) {
+		if(aula.getCantDeAlumnosPermitidos() > cantidadAlumnosInscriptos)
+			return true;
+		
+		return false;
 	}
 
 	private boolean verificarQueNoEsteFueraDeLaFechaDeInscripcion(CicloLectivo cicloLectivo) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate hoy = LocalDate.parse(LocalDate.now().toString(), formatter);
-
-		if (cicloLectivo.estaEnFechaDeIncripcion(hoy))
+		
+		if(cicloLectivo.estaEnFechaDeIncripcion(hoy))
 			return true;
 		return false;
 	}
 
-	private static List<Materia> obtenerMateriasCursadasPorUnAlumno(Integer dniAlumno) {
-		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
-		/// traer los cursos que cursa el alumno
-		/// verificar que las notas de esos cursos sean mayor o igual a 4
-		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno);
-
-		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
-			if (cursoAlumno.estaCursado() || cursoAlumno.estaAprobado()) {
-				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
-			}
-		}
-
-		return listaDeMateriasAprobadas;
-
-	}
-
-	public static Boolean verificarQueLasCorrelativasEstenAprobadas(Integer idCurso, Integer dniAlumno) {
-
+	public static Boolean verificarQueLasCorrelativasEstenAprobadas(Integer idCurso,Integer dniAlumno) {
+		
 		List<Materia> materiaCorrelativas = new ArrayList<>();
 		List<Materia> materiasCursadas = obtenerMateriasCursadasPorUnAlumno(dniAlumno);
 		Curso cursoAInscribir = buscarCurso(idCurso);
-		List<Integer> idMateriaCorrelativas = cursoAInscribir.getMateria().getCorrelativas();
-
+		List<Integer> idMateriaCorrelativas =  cursoAInscribir.getMateria().getCorrelativas();
+		
 		for (Integer idMateriasCorrelativa : idMateriaCorrelativas) {
 			Materia materiaEncontrada = buscarMateria(idMateriasCorrelativa);
-			if (materiaEncontrada != null)
+			if(materiaEncontrada != null)
 				materiaCorrelativas.add(materiaEncontrada);
 		}
-
+		
 		return materiasCursadas.containsAll(materiaCorrelativas);
 	}
 
-	public static List<Materia> obtenerMateriasQueFaltanCursarDeUnAlumno(Integer dniAlumno) {
-
-		if (!existeAlumno(dniAlumno))
+	private static List<Materia> obtenerMateriasCursadasPorUnAlumno(Integer dniAlumno) {
+		List<Materia> listaDeMateriasAprobadas = new ArrayList<>();
+		///traer los cursos que cursa el alumno 
+		///verificar que las notas de esos cursos sean mayor o igual a 4
+		List<CursoAlumno> cursosDelAlumno = buscarCursosDelAlumno(dniAlumno); 
+		
+		for (CursoAlumno cursoAlumno : cursosDelAlumno) {
+			if(cursoAlumno.estaCursado() || cursoAlumno.estaAprobado()) {
+				listaDeMateriasAprobadas.add(cursoAlumno.getCursoDelAlumno().getMateria());
+			}
+		}
+		
+		return listaDeMateriasAprobadas;
+		
+	}
+	
+	//// lista de materias es el plan de estudios 
+	public List<Materia> obtenerMateriasQueFaltanCursarDeUnAlumno(Integer dniAlumno) {
+		
+		if(!existeAlumno(dniAlumno))
 			return null;
-
+		
 		List<Materia> materiasAprobadasDelAlumno = obtenerMateriasAprobadasDeUnAlumno(dniAlumno);
 		List<Materia> materiasQueFaltanCursarDeUnAlumno = listaDeMaterias;
-
+		
 		materiasQueFaltanCursarDeUnAlumno.removeAll(materiasAprobadasDelAlumno);
-
-		return materiasAprobadasDelAlumno;
+		
+		
+		return materiasQueFaltanCursarDeUnAlumno;
 	}
 
 	// en esta funcion hay que calcular el promedio final en base a todos los cursos
-	public Boolean obtenerPromedio(Integer idAlumno) {
+	public Double obtenerPromedio(Integer idAlumno) {
 		Alumno alumno = buscarAlumno(idAlumno);
 		if (alumno != null) {
 			if (!listaDeCursoAlumnos.isEmpty()) {
-				double nota = 0.0;
+				Double nota = 0.0;
 				Double notaFinal;
 				for (CursoAlumno curso : listaDeCursoAlumnos) {
 
@@ -440,19 +501,17 @@ public class Universidad {
 				}
 				// Calcular el promedio como el promedio de todas las notas
 				Double promedio = nota / listaDeCursoAlumnos.size();
-				System.out.println("el promedio final es: " + promedio);
-				return true;
-
+				return promedio;
 			}
 		}
-		return false;
+		return null;
 	}
 
-	public static int generarIdAleatorio() {
+	public static Integer generarIdAleatorio() {
 		// Crear una instancia de Random
 		Random rand = new Random();
 		// Generar un número aleatorio en el rango de 1 a 100000 (incluyendo 1 y 100)
-		int idAleatorio = rand.nextInt(100000) + 1;
+		Integer idAleatorio = rand.nextInt(100000) + 1;
 		return idAleatorio;
 	}
 }

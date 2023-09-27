@@ -4,7 +4,7 @@ import org.junit.Test;
 public class TestProfesor {
 
 	@Test
-	public void testRegistrarProfesorEnUniversidad() {
+	public void testQueSePuedaRegistrarProfesorEnUniversidad() {
         //preparacion
 		String nombreUniversidad = "UNLAM",nombre="rodolfo",apellido="perez";
 		Integer id=1,edad=20,DNI = 123;
@@ -19,10 +19,10 @@ public class TestProfesor {
         //test
 		assertTrue(resultado);
 	}
-
+	
 	@Test
 	public void testRegistrarProfesorExistenteEnUniversidad() {
-	    // Preparación
+	    //preparación
 	    String nombreUniversidad = "UNLAM";
 	    String nombre = "rodolfo", apellido = "perez", nombre2 = "victor", apellido2 = "heredia";
 	    Integer id = 1, DNI = 12345, edad = 20, id2 = 2, DNI2 = 12345, edad2 = 20;
@@ -32,14 +32,14 @@ public class TestProfesor {
 	    LocalDate fechaDeNac2 = LocalDate.of(2000, 4, 1);
 	    LocalDate fechaDeIngreso2 = LocalDate.of(2021, 3, 1);
 
-	    // Ejecución
+	    //ejecución
 	    Universidad universidad = new Universidad(nombreUniversidad);
 	    Profesor nuevoProfesor = new Profesor(id, nombre, apellido, DNI, edad, fechaDeNac, fechaDeIngreso);
 	    Profesor nuevoProfesor2 = new Profesor(id2, nombre2, apellido2, DNI2, edad2, fechaDeNac2, fechaDeIngreso2);
 	    resultadoProfesor1 = universidad.registrarProfesor(nuevoProfesor);
 	    resultadoObtenido = universidad.registrarProfesor(nuevoProfesor2);
 
-	    // Prueba
+	    //test
 	    assertNotEquals(resultadoProfesor1,resultadoObtenido);
 	}
 }

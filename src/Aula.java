@@ -18,8 +18,4 @@ public class Aula {
 	public void setCantDeAlumnosPermitidos(Integer cantDeAlumnosPermitidos) {
 		this.cantDeAlumnosPermitidos = cantDeAlumnosPermitidos;
 	}
-	
-	
-	
-	
 }

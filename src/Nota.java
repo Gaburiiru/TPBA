@@ -7,11 +7,9 @@ public class Nota {
 		return tipoDeNota;
 	}
 
-
 	public void setTipoDeNota(TipoDeNota tipoDeNota) {
 		this.tipoDeNota = tipoDeNota;
 	}
-
 
 	public Nota(Integer id, Integer valorNota,TipoDeNota tipoDeNota) {
 		super();
@@ -20,25 +18,19 @@ public class Nota {
 		this.tipoDeNota = tipoDeNota;
 	}
 	
-	
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
 	public Integer getValorNota() {
 		return valorNota;
 	}
+	
 	public void setValorNota(Integer valorNota) {
 		this.valorNota = valorNota;
 	}
-
-
-	@Override
-	public String toString() {
-		return "Nota [id=" + id + ", valorNota=" + valorNota + ", tipoDeNota=" + tipoDeNota + "]";
-	}
-	
-	
 }

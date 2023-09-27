@@ -1,12 +1,12 @@
 public class CursoProfesor {
 	private Integer id;
 	private Profesor profesor;
-	private Curso curso;
+	private Curso cursoAsignado;
 	
-	public CursoProfesor(Integer id,Profesor profesor, Curso curso) {
+	public CursoProfesor(Integer id,Profesor profesor, Curso cursoAsignado) {
 		this.profesor = profesor;
 		this.id = id;
-		this.curso = curso;
+		this.cursoAsignado = cursoAsignado;
 	}
 
 	public Integer getId() {
@@ -25,11 +25,19 @@ public class CursoProfesor {
 		this.profesor = profesor;
 	}
 
-	public Curso getCurso() {
-		return curso;
+	public Profesor getAlumno() {
+		return profesor;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public void setAlumno(Profesor profesor) {
+		this.profesor = profesor;
+	}
+
+	public Curso getCursoAsignado() {
+		return cursoAsignado;
+	}
+
+	public void setCursoAsignado(Curso cursoAsignado) {
+		this.cursoAsignado = cursoAsignado;
 	}
 }

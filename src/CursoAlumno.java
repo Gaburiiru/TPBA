@@ -99,11 +99,9 @@ public class CursoAlumno {
 		Integer nota2doParcial = null;
 
 		if (listaDeNotas.isEmpty()) {
-			System.out.println("lista sin notas");
 			return null;
 		} else {
 			for (Nota nota : listaDeNotas) {
-				System.out.println("hola");
 				switch (nota.getTipoDeNota()) {
 				case RECUPERATORIO_1ERPARCIAL:
 				case PRIMER_PARCIAL:
@@ -119,10 +117,8 @@ public class CursoAlumno {
 
 		// Verificar si falta alguna nota
 		if (nota1erParcial == null || nota2doParcial == null) {
-			System.out.println("falta alguna nota");
 			return null; // No se puede calcular la nota final
 		}
-
 		// Calcular la nota final como promedio ponderado (50% - 50%)
 		Double notaFinal = (nota1erParcial + nota2doParcial) / 2.0;
 		return notaFinal;
@@ -193,30 +189,4 @@ public class CursoAlumno {
 			}
 		}
 	}
-
-	public static Double calcularPromedioPorCursoDouble() {
-		if (listaDeNotas.isEmpty()) {
-			return null; // No hay notas para calcular el promedio
-		} else {
-			// Calcular el promedio de las notas
-			double sumaNotas = 0.0;
-			int cantidadNotas = 0;
-			for (Nota nota : listaDeNotas) {
-				Integer valorNota = nota.getValorNota();
-				if (valorNota != null) {
-					sumaNotas += valorNota;
-					cantidadNotas++;
-				}
-			}
-			if (cantidadNotas > 0) {
-				double promedio = sumaNotas / cantidadNotas;
-				System.out.println("El promedio total del alumno es: " + promedio);
-				return promedio;
-			} else {
-				System.out.println("No hay notas válidas para calcular el promedio.");
-				return null;
-			}
-		}
-	}
-
 }
