@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Materia {
 	private Integer id;
@@ -27,8 +26,7 @@ public class Materia {
 	public List<Integer> getCorrelativas() {
 		return correlativas;
 	}
-
-
+	
 	public void setCorrelativa(List<Integer> correlativas) {
 		correlativas.addAll(correlativas);
 	}
@@ -44,5 +42,4 @@ public class Materia {
 		// TODO Auto-generated method stub
 		correlativas.remove(idCorrelatividad);
 	}
-	
 }

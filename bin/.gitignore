@@ -1,6 +1,3 @@
-/TestCurso.class
-/TestMateria.class
-/TestProfesor.class
-/TipoDeNota.class
-/TestCursoAlumno.class
-/TestRegistrarAula.class
+/DiaDeLaSemana.class
+/TestMetodosCorrelativas.class
+/TestMateriasQueFaltanCursarDeUnAlumno.class

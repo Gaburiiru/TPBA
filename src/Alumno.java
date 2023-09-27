@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.List;
 
 public class Alumno {
 	private Integer id;
@@ -77,5 +76,4 @@ public class Alumno {
 	public void setEdad(Integer edad) {
 		this.edad = edad;
 	}
-	
 }
